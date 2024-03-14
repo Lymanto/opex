@@ -1,0 +1,246 @@
+<app-layout currentUrl="/dashboard">
+  <div
+    class="p-4 border border-primary-border rounded-3xl bg-neutral-10 flex flex-col gap-4"
+  >
+    <div class="flex flex-row justify-between items-center">
+      <h2 class="text-subheading font-medium text-neutral-100">List of Data</h2>
+      <div class="flex flex-row gap-3">
+        <app-button
+          [icon]="
+            isFilterActive
+              ? 'assets/images/icons/ic-eye-blue-slash.svg'
+              : 'assets/images/icons/ic-eye-blue.svg'
+          "
+          [label]="isFilterActive ? 'Hide Filter' : 'Show Filter'"
+          type="primary-not-active"
+          (click)="isFilterActive = !isFilterActive"
+        >
+        </app-button>
+        <app-button
+          label="Create Request"
+          icon="assets/images/icons/ic-plus-circle-white.svg"
+          type="primary"
+          [isHref]="true"
+          href="/dashboard/new-request"
+        ></app-button>
+      </div>
+    </div>
+    <ng-container *ngIf="isFilterActive">
+      <div class="border border-primary-border rounded-3xl bg-neutral-10 p-3">
+        <div class="flex gap-3 items-center">
+          <div
+            class="flex-grow flex flex-col gap-3 border-r border-r-primary-border pr-4"
+          >
+            <div class="grid grid-cols-4 gap-3">
+              <app-select-box
+                (selectedValue)="onChangeYears($event)"
+                [data]="dataYears"
+                [value]="years"
+                id="years"
+                label="Years"
+              ></app-select-box>
+              <app-select-box
+                id="dinas"
+                label="Dinas"
+                (selectedValue)="onChangeDinas($event)"
+                [data]="dataDinas"
+                [value]="dinas"
+              ></app-select-box>
+              <app-input-text
+                type="normal"
+                id="requestNumber"
+                (currentValue)="onChangeRequestNumber($event)"
+                placeholder="Fill this.."
+                label="No. of Request"
+              ></app-input-text>
+              <app-input-date
+                id="entryDateFrom"
+                placeholder="Select One.."
+                [value]="entryDateFrom"
+                (currentValue)="onChangeEntryDateFrom($event)"
+                label="Entry Date (From)"
+              ></app-input-date>
+            </div>
+            <hr class="w-full border-t border-t-primary-border" />
+            <div class="grid grid-cols-4 gap-3">
+              <app-input-date
+                id="entryDateTo"
+                placeholder="Select One.."
+                label="Entry Date (To)"
+                [value]="entryDateTo"
+                (currentValue)="onChangeEntryDateTo($event)"
+              ></app-input-date>
+              <app-select-box
+                id="typeSubmission"
+                label="Type of Submission"
+                type="typeSubmission"
+                [data]="dataType"
+                [value]="type"
+                (selectedValue)="onChangeType($event)"
+              ></app-select-box>
+              <app-select-box
+                type="status"
+                id="status"
+                label="Status"
+                [data]="dataStatus"
+                [value]="status"
+                (selectedValue)="onChangeStatus($event)"
+              ></app-select-box>
+              <app-select-box
+                type="status"
+                id="statusTo"
+                label="Status To"
+              ></app-select-box>
+            </div>
+          </div>
+          <app-button
+            label="Reset Filter"
+            (click)="resetFilter()"
+            icon="assets/images/icons/ic-eye-red.svg"
+            type="danger-not-active"
+          ></app-button>
+        </div>
+      </div>
+    </ng-container>
+    <div
+      class="border border-primary-border rounded-3xl bg-primary-bg-2 p-3"
+      *ngIf="dataPercentage != null || dataPercentage != undefined"
+    >
+      <div
+        class="grid gap-4"
+        [ngClass]="{
+        'grid-cols-1': dataPercentage.length === 1,
+        'grid-cols-2': dataPercentage.length === 2,
+        'grid-cols-3': dataPercentage.length === 3,
+        'grid-cols-4': dataPercentage.length === 4,
+        'grid-cols-5': dataPercentage.length === 5,
+        }
+      "
+      >
+        <app-status-percentage
+          *ngFor="let item of dataPercentage"
+          [label]="item.type"
+          [value]="item.count"
+          [percentage]="item.percentage"
+        ></app-status-percentage>
+      </div>
+    </div>
+    <table class="w-full">
+      <thead>
+        <tr
+          class="text-center border border-b-2 border-x-white border-t-white border-b-primary-hover text-p-md tracking-[0.5px] table-auto"
+        >
+          <th class="p-2">No</th>
+          <th class="p-2">No. of Request</th>
+          <th class="p-2">Entry Date</th>
+          <th class="p-2">Dinas</th>
+          <th class="p-2">Status</th>
+          <th class="p-2">Type of Submission</th>
+          <th class="p-2">Status To</th>
+          <th class="p-2">Department To</th>
+          <th class="p-2">Submission Value</th>
+          <th class="p-2">Action</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let item of data; let i = index">
+        <tr
+          class="text-center border border-x-white border-t-white border-b-1 border-b-primary-border text-p-md tracking-[0.5px]"
+        >
+          <td class="p-4">{{ i + 1 }}</td>
+          <td>{{ item.requestNumber }}</td>
+          <td>{{ formatDate(item.entryDate) }}</td>
+          <td>{{ item.m_cost_center.dinas }}</td>
+          <td>
+            <ng-container *ngIf="checkStatus(item.status)">
+              <app-status [status]="item.status" />
+            </ng-container>
+          </td>
+          <td>{{ typeSubmission(item.typeSubmission) }}</td>
+          <td>{{ item.statusTo }}</td>
+          <td>{{ item.departmentTo }}</td>
+          <td>{{ item.submissionValue }} USD</td>
+          <td>
+            <button
+              (click)="onShowDetail(item.idRealization)"
+              type="button"
+              class=""
+              routerLinkActive="active"
+            >
+              <div
+                class="text-p-sm mx-auto tracking-[0.5px] border-solid border-2 border-primary-border text-primary-hover text-center w-[22px] h-[22px] rounded-full bg-tertiary-white"
+                [ngClass]="{
+                  'bg-primary-hover':item.idRealization === activeId,
+                  'border-primary-hover':item.idRealization === activeId,
+        }"
+              >
+                <img
+                  [src]="
+                    item.idRealization === activeId
+                      ? 'assets/images/icons/ic-arrow-up-active.svg'
+                      : 'assets/images/icons/ic-arrow-down.svg'
+                  "
+                  alt="Arrow down"
+                />
+              </div>
+            </button>
+          </td>
+        </tr>
+        <tr
+          *ngIf="item.idRealization === activeId"
+          class="text-center border border-x-white border-t-white border-b-1 border-b-primary-border bg-primary-bg-2 text-p-md tracking-[0.5px]"
+        >
+          <td colspan="9">
+            <div class="flex gap-1 items-center">
+              <div class="text-p-md tracking-[0.5px] font-medium">
+                Description
+              </div>
+              <div class="w-2 h-[1px] bg-neutral-100"></div>
+              <div class="text-p-md tracking-[0,5px]">
+                {{ item.description }}
+              </div>
+            </div>
+          </td>
+          <td>
+            <button type="button" class="" routerLinkActive="active">
+              <div
+                class="text-p-sm mx-auto tracking-[0.5px] border-solid border-2 border-primary-border text-primary-hover text-center w-[22px] h-[22px] rounded-full bg-tertiary-white"
+              >
+                <img src="assets/images/icons/ic-eye-blue.svg" alt="" />
+              </div>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="flex justify-between items-center">
+      <div class="flex gap-1">
+        <div class="text-p-md tracking-[0.5px] text-neutral-60">
+          Row per page
+        </div>
+        <div class="text-p-md tracking-[0.5px] text-neutral-100">
+          {{ meta.totalItemsPerPage }}
+        </div>
+      </div>
+      <div class="justify-end items-center mt-2">
+        <div class="flex gap-1">
+          <div class="text-p-md tracking-[0.5px] text-neutral-60">Page</div>
+
+          <div
+            class="text-p-md tracking-[0.5px] border-solid border-2 border-primary-border text-primary-hover text-center rounded-lg w-[22px] h-[22px] flex justify-center items-center"
+          >
+            {{ meta.currentPage }}
+          </div>
+          <div class="text-p-md tracking-[0.5px] text-neutral-60">
+            of {{ meta.lastpage }}
+          </div>
+          <app-pagination
+            [numberOfItems]="meta.totalItems"
+            [itemsPerPage]="meta.totalItemsPerPage"
+            [currentPage]="meta.currentPage"
+            (pageChange)="onPageChange($event)"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</app-layout>

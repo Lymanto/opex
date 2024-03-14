@@ -1,0 +1,11 @@
+<app-layout currentUrl="/master-data" currentUrlSubMenu="/summary">
+  <div
+    class="p-4 border border-primary-border rounded-3xl bg-neutral-10 flex flex-col gap-4"
+  >
+    <div class="grid justify-between items-center grid-cols-2 gap-3">
+      <app-select-box id="years" label="Years"></app-select-box>
+      <app-select-box id="dinas" label="Dinas"></app-select-box>
+    </div>
+    <app-table type="masterDataSummaryTable"></app-table>
+  </div>
+</app-layout>

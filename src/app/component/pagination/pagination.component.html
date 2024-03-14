@@ -1,0 +1,46 @@
+<ng-container *ngIf="numberOfPages > 0">
+  <div class="flex flex-row gap-1">
+    <div
+      class="text-p-md tracking-[0.5px] text-center rounded-lg- w-[22px] border-solid border-2 border-primary-border text-primary-hover h-[22px] flex justify-center items-center"
+      [ngClass]="{
+        '  bg-neutral-20 border-neutral-40 text-neutral-60':
+          numberOfPages === 1 || (loop === false && currentPage === 1)
+      }"
+      (click)="goToPrevPage()"
+    >
+      <img src="assets/images/icons/ic-arrow-left-not-active.svg" alt="" />
+    </div>
+    <div *ngFor="let page of pages">
+      <div
+        class="text-p-md tracking-[0.5px] border-solid border-2 border-primary-border text-primary-hover text-center rounded-lg w-[22px] h-[22px] flex justify-center items-center"
+        [ngClass]="{
+          'border-primary-hover bg-primary-hover text-white':
+            currentPage === page
+        }"
+        (click)="goToPage(page)"
+        *ngIf="page; else placeholder"
+      >
+        {{ page }}
+      </div>
+    </div>
+
+    <ng-template #placeholder>
+      <div
+        class="text-p-md tracking-[0.5px] border-solid border-2 border-primary-border text-primary-hover text-center rounded-lg w-[22px] h-[22px] flex justify-center items-center"
+      >
+        ...
+      </div>
+    </ng-template>
+    <div
+      class="text-p-md tracking-[0.5px] border-solid border-2 border-primary-border text-primary-hover text-center rounded-lg w-[22px] h-[22px] flex justify-center items-center"
+      [ngClass]="{
+        ' bg-neutral-20 border-neutral-40 text-neutral-60':
+          numberOfPages === 1 ||
+          (loop === false && currentPage === numberOfPages)
+      }"
+      (click)="goToNextPage()"
+    >
+      <img src="assets/images/icons/ic-arrow-right.svg" alt="" />
+    </div>
+  </div>
+</ng-container>

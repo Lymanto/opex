@@ -1,0 +1,39 @@
+<div
+  [ngClass]="{
+    'bg-tertiary-bg-brown':label == 'REJECT',
+    'bg-tertiary-bg-tosca':label == 'REVISE',
+    'bg-tertiary-bg-red':label == 'OPEN',
+    'bg-tertiary-bg-blue':label == 'PROGRESS',
+    'bg-tertiary-bg-green':label == 'CLOSED',
+}"
+  class="border border-tertiary-br-blue rounded-3xl flex flex-col"
+>
+  <div
+    class="pt-2 pb-3 px-2 flex flex-row items-center justify-between border-b border-b-tertiary-br-blue"
+  >
+    <span class="text-subheading font-medium text-tertiary-tx-blue capitalize">
+      {{ toLowerCase(label) }}
+    </span>
+    <div
+      class="max-w-[87px] w-full px-[30.8px] py-3 box-border bg-tertiary-tx-blue border border-tertiary-br-blue rounded-2xl text-tertiary-bg-brown text-p-md font-medium text-center"
+    >
+      {{ value }}
+    </div>
+  </div>
+  <div class="pb-4 pt-3">
+    <div class="w-[80px] mx-auto relative">
+      <span
+        class="absolute top-2/3 left-1/2 -translate-x-1/2 -translate-y-2/3 bottom-[-5px] text-p-md font-semibold text-tertiary-tx-blue"
+        >{{ percentage }}%</span
+      >
+      <canvas
+        baseChart
+        [labels]="doughnutChartLabels"
+        [datasets]="doughnutChartDatasets"
+        [options]="doughnutChartOptions"
+        [legend]="true"
+        [type]="'doughnut'"
+      ></canvas>
+    </div>
+  </div>
+</div>

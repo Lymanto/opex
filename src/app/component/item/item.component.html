@@ -1,0 +1,205 @@
+<div class="flex flex-col gap-3">
+  <div
+    class="flex flex-row justify-between items-center pb-2 border-b border-b-primary-border"
+  >
+    <div>
+      <div
+        class="text-p-lg font-medium text-neutral-100 after:content-['*'] after:text-tertiary-tx-red"
+      >
+        Item
+      </div>
+      <p class="text-p-sm text-neutral-80">
+        As many items as you need can be added
+      </p>
+    </div>
+    <app-button
+      label="Add"
+      icon="assets/images/icons/ic-plus-circle-blue.svg"
+      type="primary-not-active"
+      (click)="addItems()"
+    >
+    </app-button>
+  </div>
+  <form
+    [formGroup]="itemsForm"
+    *ngFor="let item of getItems.controls; let i = index"
+  >
+    <div class="flex flex-col gap-4" formArrayName="items">
+      <ng-container *ngIf="isDisplay">
+        <div
+          class="flex flex-col gap-4 p-4 box-border border border-primary-border rounded-3xl bg-primary-bg-2"
+          formGroupName="{{ i }}"
+        >
+          <div class="flex justify-between items-center">
+            <div class="flex flex-col justify-center items-center">
+              <p class="text-p-sm text-neutral-60 p-0 m-0 leading-3">Item</p>
+              <p class="text-p-lg font-semibold text-neutral-100">
+                {{ i + 1 }}
+              </p>
+            </div>
+            <div class="flex flex-row gap-3">
+              <app-button
+                *ngIf="showDeleteButton(i)"
+                label="Delete"
+                icon="assets/images/icons/ic-trash-red.svg"
+                type="danger-not-active"
+                (click)="removeItem(i)"
+              ></app-button>
+              <app-button
+                label="Hide Item"
+                [icon]="
+                  isDisplay
+                    ? 'assets/images/icons/ic-eye-white-slash.svg'
+                    : 'assets/images/icons/ic-eye-blue.svg'
+                "
+                [label]="isDisplay ? 'Hide Item' : 'Show Item'"
+                [type]="isDisplay ? 'primary' : 'primary-not-active'"
+                (click)="isDisplay = !isDisplay"
+              >
+              </app-button>
+            </div>
+          </div>
+          <hr class="w-full h-px bg-primary-border border-0" />
+          <div class="grid grid-cols-3 gap-4">
+            <app-select-box
+              type="normal"
+              id="group"
+              label="Group"
+              [required]="true"
+              [data]="selectGroupData"
+              (selectedValue)="getValueGL($event, i)"
+            >
+            </app-select-box>
+            <app-select-box
+              type="normal"
+              id="groupDetail"
+              label="Group Detail"
+              [required]="true"
+              [data]="selectGroupDetail"
+              (selectedValue)="getValueGL($event, i)"
+            >
+            </app-select-box>
+            <app-input-text
+              label="G/L Number"
+              [isAsk]="true"
+              type="normalControl"
+              [isReadOnly]="true"
+              formControlName="GLNumberControl"
+              id="glAccount"
+            />
+          </div>
+          <div class="grid grid-cols-4 gap-4">
+            <app-input-text
+              type="currency"
+              id="available"
+              label="Available"
+              formControlName="availableControl"
+              [isDisabled]="true"
+            />
+            <app-input-text
+              type="amount-submission"
+              id="amountSubmission"
+              label="Amount Submission"
+              [currentKurs]="currentKurs"
+              formControlName="amountSubmissionControl"
+              [available]="item.get('availableControl')?.value"
+            />
+            <app-input-date
+              label="Period Start"
+              id="periodStart"
+              [isAsk]="true"
+              [required]="true"
+              formControlName="periodStartControl"
+            />
+            <app-input-date
+              label="Period Finish"
+              id="periodFinish"
+              [isAsk]="true"
+              [required]="true"
+              formControlName="periodFinishControl"
+            />
+          </div>
+          <app-input-text
+            type="normalControl"
+            id="descriptionPB"
+            label="Description PB-Y-02"
+            [isAsk]="true"
+            [required]="true"
+            formControlName="descriptionControl"
+          />
+          <app-input-text
+            type="normalControl"
+            id="remarkListPB"
+            label="Remark List PB-Y-02"
+            formControlName="remarkControl"
+            [isAsk]="true"
+            [required]="true"
+          />
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="!isDisplay">
+        <div
+          class="flex flex-row justify-between p-4 box-border border border-primary-border rounded-3xl bg-primary-bg-2"
+        >
+          <div class="flex items-center text-center">
+            <div class="flex flex-col justify-center items-center pr-3">
+              <p class="text-p-sm text-neutral-60 p-0 m-0 leading-3">Item</p>
+              <p class="text-p-lg font-semibold text-neutral-100">
+                {{ i + 1 }}
+              </p>
+            </div>
+
+            <div class="border-l border-primary-border p-3">
+              <p class="text-p-sm text-neutral-60 p-0 m-0 leading-3">Group</p>
+              <p class="text-p-lg font-semibold text-neutral-100">
+                Rental Expense
+              </p>
+            </div>
+            <div class="border-l border-primary-border p-3">
+              <p class="text-p-sm text-neutral-60 p-0 m-0 leading-3">
+                Group Detail
+              </p>
+              <p class="text-p-lg font-semibold text-neutral-100">
+                Building-Rental
+              </p>
+            </div>
+            <div class="border-l border-primary-border p-3">
+              <p class="text-p-sm text-neutral-60 p-0 m-0 leading-3">
+                G/L Number
+              </p>
+              <p class="text-p-lg font-semibold text-neutral-100">400000001</p>
+            </div>
+            <div class="border-l border-primary-border p-3">
+              <p class="text-p-sm text-neutral-60 p-0 m-0 leading-3">
+                Amount Submission
+              </p>
+              <p class="text-p-lg font-semibold text-neutral-100">758.62 USD</p>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <app-button
+              *ngIf="showDeleteButton(i)"
+              label="Delete"
+              icon="assets/images/icons/ic-trash-red.svg"
+              type="danger-not-active"
+              (click)="removeItem(i)"
+            ></app-button>
+            <app-button
+              label="Hide Item"
+              [icon]="
+                isDisplay
+                  ? 'assets/images/icons/ic-eye-white-slash.svg'
+                  : 'assets/images/icons/ic-eye-blue.svg'
+              "
+              [label]="isDisplay ? 'Hide Item' : 'Show Item'"
+              [type]="isDisplay ? 'primary' : 'primary-not-active'"
+              (click)="isDisplay = !isDisplay"
+            >
+            </app-button>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </form>
+</div>

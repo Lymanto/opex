@@ -1,0 +1,221 @@
+<app-layout currentUrl="/need-approval">
+  <div
+    class="p-4 border border-primary-border rounded-3xl bg-neutral-10 flex flex-col gap-4"
+  >
+    <div class="flex flex-row justify-between items-center">
+      <h2 class="text-subheading font-medium text-neutral-100">List of Data</h2>
+      <div class="flex flex-row gap-3">
+        <app-button
+          [icon]="
+            isFilterActive
+              ? 'assets/images/icons/ic-eye-blue-slash.svg'
+              : 'assets/images/icons/ic-eye-blue.svg'
+          "
+          [label]="isFilterActive ? 'Hide Filter' : 'Show Filter'"
+          type="primary-not-active"
+          (click)="isFilterActive = !isFilterActive"
+        >
+        </app-button>
+      </div>
+    </div>
+    <ng-container *ngIf="isFilterActive">
+      <div class="border border-primary-border rounded-3xl bg-neutral-10 p-3">
+        <div class="flex gap-3 items-center">
+          <div
+            class="flex-grow flex flex-col gap-3 border-r border-r-primary-border pr-4"
+          >
+            <div class="grid grid-cols-4 gap-3">
+              <app-input-text
+                type="normal"
+                id="taReff"
+                placeholder="Fill this.."
+                (currentValue)="onChangeTAReff($event)"
+                label="TA Reff"
+                [value]="taReff"
+              ></app-input-text>
+              <app-input-text
+                type="normal"
+                id="requestNumber"
+                placeholder="Fill this.."
+                label="No. of Request"
+                [value]="requestNumber"
+                (currentValue)="onChangeRequestNumber($event)"
+              ></app-input-text>
+              <app-select-box
+                id="dinas"
+                label="Dinas"
+                (selectedValue)="onChangeDinas($event)"
+                [data]="dataDinas"
+                [value]="dinas"
+              ></app-select-box>
+              <app-select-box
+                id="typeOfLetter"
+                label="Type of Letter"
+                [data]="[
+                  {
+                    id: 'Realisasi Anggaran',
+                    value: 'Realisasi Anggaran'
+                  },
+                  {
+                    id: 'Realokasi Anggaran',
+                    value: 'Realokasi Anggaran'
+                  }
+                ]"
+                [value]="typeOfLetter"
+                (selectedValue)="onChangeTypeOfLetter($event)"
+              ></app-select-box>
+            </div>
+            <hr class="w-full border-t border-t-primary-border" />
+            <div class="grid grid-cols-4 gap-3">
+              <app-input-date
+                id="entryDateFrom"
+                placeholder="Select One.."
+                [value]="entryDate"
+                (currentValue)="onChangeEntryDate($event)"
+                label="Entry Date (From)"
+              ></app-input-date>
+              <app-input-date
+                id="entryDateTo"
+                placeholder="Select One.."
+                label="Entry Date (To)"
+                [value]="entryDateTo"
+                (currentValue)="onChangeEntryDateTo($event)"
+              ></app-input-date>
+              <app-select-box
+                type="status"
+                id="status"
+                label="Status"
+                [data]="dataStatus"
+                [value]="status"
+                (selectedValue)="onChangeStatus($event)"
+              ></app-select-box>
+              <app-select-box
+                type="status"
+                id="statusTo"
+                label="Status To"
+              ></app-select-box>
+            </div>
+          </div>
+          <app-button
+            label="Reset Filter"
+            icon="assets/images/icons/ic-eye-red.svg"
+            (click)="resetFilter()"
+            type="danger-not-active"
+          ></app-button>
+        </div>
+      </div>
+    </ng-container>
+
+    <table class="w-full">
+      <tr
+        class="text-center border border-b-2 border-x-white border-t-white border-b-primary-hover text-p-md tracking-[0.5px] table-auto"
+      >
+        <th *ngFor="let column of header" class="p-2">
+          {{ column }}
+        </th>
+        <th>Action</th>
+      </tr>
+      <tbody *ngFor="let item of data; let i = index">
+        <tr
+          class="text-center border border-x-white border-t-white border-b-1 border-b-primary-border text-p-md tracking-[0.5px]"
+        >
+          <td class="h-[56px]">{{ i + 1 }}</td>
+          <td class="h-[56px]">{{ item.taReff }}</td>
+          <td class="h-[56px]">{{ item.requestNumber }}</td>
+          <td class="h-[56px]">{{ item.typeOfLetter }}</td>
+          <td class="h-[56px]">{{ formatDate(item.entryDate) }}</td>
+          <td class="h-[56px]">{{ item.amountSubmission }}</td>
+
+          <td class="h-[56px]">
+            <ng-container *ngIf="checkStatus(item.status)">
+              <app-status [status]="item.status" />
+            </ng-container>
+          </td>
+
+          <td class="h-[56px]">{{ item.statusTo }}</td>
+          <td class="h-[56px]">{{ item.departmentTo }}</td>
+          <td>
+            <button
+              (click)="onClick(item.idRealization)"
+              type="button"
+              class=""
+              routerLinkActive="active"
+            >
+              <div
+                class="text-p-sm mx-auto tracking-[0.5px] border-solid border-2 border-primary-border text-primary-hover text-center w-[22px] h-[22px] rounded-full bg-tertiary-white"
+                [ngClass]="{
+                'bg-primary-hover':item.idRealization === activeId,
+                'border-primary-hover':item.idRealization === activeId,
+              }"
+              >
+                <img
+                  [src]="
+                    item.idRealization === activeId
+                      ? 'assets/images/icons/ic-arrow-up-active.svg'
+                      : 'assets/images/icons/ic-arrow-down.svg'
+                  "
+                  alt="Arrow down"
+                />
+              </div>
+            </button>
+          </td>
+        </tr>
+        <tr
+          *ngIf="item.idRealization === activeId"
+          class="text-center border border-x-white border-t-white border-b-1 border-b-primary-border bg-primary-bg-2 text-p-md tracking-[0.5px]"
+        >
+          <td colspan="9">
+            <div class="flex gap-1 items-center">
+              <div class="text-p-md tracking-[0.5px] font-medium">
+                Description
+              </div>
+              <div class="w-2 h-[1px] bg-neutral-100"></div>
+              <div class="text-p-md tracking-[0,5px]">
+                {{ item.description }}
+              </div>
+            </div>
+          </td>
+          <td routerLinkActive="active">
+            <a routerLink="/need-approval/detail/{{ item.idRealization }}">
+              <div
+                class="text-p-sm mx-auto tracking-[0.5px] border-solid border-2 border-primary-border text-primary-hover text-center w-[22px] h-[22px] rounded-full bg-tertiary-white"
+              >
+                <img src="assets/images/icons/ic-eye-blue.svg" alt="" />
+              </div>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="flex justify-between items-center">
+      <div class="flex gap-1">
+        <div class="text-p-md tracking-[0.5px] text-neutral-60">
+          Row per page
+        </div>
+        <div class="text-p-md tracking-[0.5px] text-neutral-100">
+          {{ meta.totalItemsPerPage }}
+        </div>
+      </div>
+      <div class="justify-end items-center mt-2">
+        <div class="flex gap-1">
+          <div class="text-p-md tracking-[0.5px] text-neutral-60">Page</div>
+
+          <div
+            class="text-p-md tracking-[0.5px] border-solid border-2 border-primary-border text-primary-hover text-center rounded-lg w-[22px] h-[22px] flex justify-center items-center"
+          >
+            {{ meta.currentPage }}
+          </div>
+          <div class="text-p-md tracking-[0.5px] text-neutral-60">
+            of {{ meta.lastpage }}
+          </div>
+          <app-pagination
+            [numberOfItems]="meta.totalItems"
+            [itemsPerPage]="meta.totalItemsPerPage"
+            [currentPage]="meta.currentPage"
+            (pageChange)="onPageChange($event)"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</app-layout>

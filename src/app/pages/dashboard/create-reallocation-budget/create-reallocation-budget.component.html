@@ -1,0 +1,73 @@
+<app-layout currentUrl="/dashboard">
+  <div
+    class="p-4 border border-primary-border rounded-3xl bg-neutral-10 flex flex-col gap-4"
+  >
+    <div class="flex justify-between items-center">
+      <app-button
+        icon="assets/images/icons/ic-arrow-left.svg"
+        type="primary-not-active"
+        label="Back"
+        [isHref]="true"
+        href="/dashboard"
+      />
+      <p class="text-p-lg font-medium">Create Request Reallocation</p>
+      <app-button
+        icon="assets/images/icons/ic-reset.svg"
+        type="danger-not-active"
+        label="Reset"
+      />
+    </div>
+    <div class="flex flex-col gap-4">
+      <div class="grid grid-cols-3 gap-4">
+        <app-input-text
+          label="Entry Date"
+          id="entryDate"
+          value="30 Maret 2023"
+          type="normal"
+          [isReadOnly]="true"
+        ></app-input-text>
+        <app-select-box
+          id="typeSubmission"
+          label="Type of Submission"
+          type="typeSubmission"
+          [required]="true"
+          [data]="[
+            'Internal Dinas',
+            'Different Dinas Same Direktorat',
+            'Different Dinas Different Direktorat'
+          ]"
+          displayWith="Internal Dinas"
+        ></app-select-box>
+        <app-input-text
+          type="normal"
+          id="ownerOfBudget"
+          label="Owner of the budget"
+          [isReadOnly]="true"
+          value="TD"
+        ></app-input-text>
+      </div>
+      <app-textarea
+        id="titleOfRequest"
+        label="Title of Request"
+        [required]="true"
+        type="normal"
+        [isReadOnly]="true"
+        content="Permohonan persetujuan realisasi anggaran perpanjagan lisensi Webex meeting, Cloud device registration, add on storage, lisensi server, lisensi VMware"
+        [isAsk]="true"
+      />
+      <app-item-reallocation />
+      <div class="flex gap-2 mt-5 w-full items-center justify-center">
+        <app-button
+          icon="assets/images/icons/ic-save.svg"
+          type="primary"
+          label="Save"
+        />
+        <app-button
+          icon="assets/images/icons/ic-check-circle.svg"
+          type="success"
+          label="Submit"
+        />
+      </div>
+    </div>
+  </div>
+</app-layout>

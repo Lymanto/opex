@@ -1,0 +1,542 @@
+<section
+  id="requestVerification"
+  class="flex flex-col gap-4"
+  *ngIf="dataPersonalNumberTo != null || dataResponsibleNoPeg != null"
+>
+  <div class="grid grid-cols-4 gap-4">
+    <app-input-text
+      type="normal"
+      [isReadOnly]="true"
+      id="entryDate"
+      label="Entry Date"
+      [value]="formatDate(data.createdAt)"
+    />
+    <app-input-text
+      type="normal"
+      [isReadOnly]="true"
+      id="userDinas"
+      label="User (Dinas)"
+      [value]="data.m_cost_center.dinas"
+    />
+    <app-input-text
+      type="normal"
+      [isReadOnly]="true"
+      id="taReff"
+      label="TA Reff"
+      [value]="data.taReff"
+    />
+    <app-input-text
+      type="normal"
+      [isReadOnly]="true"
+      id="typeOfSubmission"
+      label="Type Of Submission"
+      [value]="data.type"
+    />
+  </div>
+  <div class="grid grid-cols-4 gap-4">
+    <app-input-text
+      type="normal"
+      [isReadOnly]="true"
+      id="nameOfRequest"
+      label="Name of Request"
+      [value]="data.roleAssignment.employee.personalName"
+    />
+    <app-input-text
+      type="normal"
+      [isReadOnly]="true"
+      id="idNumberOfRequest"
+      label="ID Number of Request"
+      [value]="data.createdBy"
+    />
+    <app-input-text
+      type="normal"
+      [isReadOnly]="true"
+      id="responsibleOfRequest"
+      label="Responsible of Request"
+      [value]="dataResponsibleNoPeg!.personalName"
+    />
+    <app-input-text
+      type="normal"
+      [isReadOnly]="true"
+      id="idNumberOfResponsible"
+      label="ID Number of Responsible"
+      [value]="data.responsibleNopeg"
+    />
+  </div>
+  <div class="grid grid-cols-3 gap-4">
+    <app-input-text
+      type="normal"
+      [isReadOnly]="true"
+      id="status"
+      label="Status"
+      [value]="data.status"
+    />
+    <app-input-text
+      type="normal"
+      [isReadOnly]="true"
+      id="statusTo"
+      label="Status To"
+      [value]="dataPersonalNumberTo!.personalName"
+    />
+    <app-input-text
+      type="normal"
+      [isReadOnly]="true"
+      id="departmentTo"
+      label="Department To"
+      [value]="data.departmentTo"
+    />
+  </div>
+  <app-textarea
+    id="titleOfRequest"
+    label="Title of Request"
+    [required]="true"
+    type="normal"
+    [isReadOnly]="true"
+    [content]="data.titleRequest"
+    [isAsk]="true"
+  />
+  <app-textarea
+    id="noteOfRequest"
+    label="Note of Request"
+    [required]="true"
+    type="rich"
+    [isReadOnly]="true"
+    [editorData]="data.noteRequest"
+    [isAsk]="true"
+  />
+  <div class="flex flex-col gap-5">
+    <div
+      class="flex flex-row justify-between items-center pb-2 border-b border-b-primary-border"
+    >
+      <div>
+        <div
+          class="text-p-lg font-medium text-neutral-100 after:content-['*'] after:text-tertiary-tx-red"
+        >
+          Item
+        </div>
+        <p class="text-p-sm text-neutral-80">
+          As many items as you need can be added
+        </p>
+      </div>
+    </div>
+    <form class="flex flex-col gap-4">
+      <div *ngFor="let item of data.realizationItem; let i = index">
+        <div
+          class="flex flex-col gap-4 p-4 box-border border border-primary-border rounded-3xl bg-primary-bg-2"
+        >
+          <div class="flex justify-between items-center">
+            <div class="flex flex-col justify-center items-center">
+              <p class="text-p-sm text-neutral-60 p-0 m-0 leading-3">Item</p>
+              <p class="text-p-lg font-semibold text-neutral-100">
+                {{ i + 1 }}
+              </p>
+            </div>
+            <app-button
+              label="Hide Item"
+              type="primary"
+              icon="assets/images/icons/ic-eye-white-slash.svg"
+            />
+          </div>
+          <hr class="w-full h-px bg-primary-border border-0" />
+          <div class="grid grid-cols-3 gap-4">
+            <app-input-text
+              type="normal"
+              id="group"
+              label="Group"
+              [value]="item.m_gl_account.groupGl"
+              [isReadOnly]="true"
+            ></app-input-text>
+            <app-input-text
+              type="normal"
+              id="groupDetail"
+              label="Group Detail"
+              [value]="item.m_gl_account.groupDetail"
+              [isReadOnly]="true"
+            ></app-input-text>
+            <app-input-text
+              type="normal"
+              id="GLNumber"
+              label="G/L Number"
+              [value]="item.m_gl_account.glAccount"
+              [isAsk]="true"
+              [isReadOnly]="true"
+            />
+          </div>
+          <div class="grid grid-cols-3 gap-4">
+            <app-input-text
+              type="currency"
+              id="available"
+              label="Available"
+              value="belum"
+              [isReadOnly]="true"
+            ></app-input-text>
+            <app-input-text
+              type="normal"
+              id="periodStart"
+              label="Period Start"
+              [value]="formatDate(item.periodStart)"
+              [isReadOnly]="true"
+            ></app-input-text>
+            <app-input-text
+              type="normal"
+              id="periodFinish"
+              label="Period Finish"
+              [value]="formatDate(item.periodFinish)"
+              [isAsk]="true"
+              [isReadOnly]="true"
+            />
+          </div>
+          <div class="grid grid-cols-4 gap-4">
+            <app-input-text
+              type="currency"
+              id="submissionValue"
+              label="Submission Value"
+              [value]="item.amountSubmission"
+              [isAsk]="true"
+              [isReadOnly]="true"
+            ></app-input-text>
+            <app-input-text
+              type="currency"
+              id="HPSValue"
+              [value]="item.amountHps"
+              label="HPS Value (TAP)"
+              [isReadOnly]="true"
+            ></app-input-text>
+            <app-input-text
+              type="currency"
+              id="correctionValue"
+              label="Correction Value (TAB)"
+              [value]="item.amountCorrection"
+              [isReadOnly]="
+                userRole === 'TAB' && data.statusId === 4 ? false : true
+              "
+            ></app-input-text>
+            <app-input-text
+              type="currency"
+              id="approvedValue"
+              label="Approved Value (TXC)"
+              [value]="item.amount"
+              [isReadOnly]="true"
+            />
+          </div>
+          <app-input-text
+            type="normal"
+            id="descriptionPB"
+            label="Description PB-Y-02"
+            value="Pengadaan Software"
+            [value]="item.descPby"
+            [isAsk]="true"
+            [isReadOnly]="true"
+          />
+          <app-input-text
+            type="normal"
+            id="remarkListPB"
+            label="Remark List PB-Y-02"
+            [isAsk]="true"
+            [value]="item.remarkPby"
+            [isReadOnly]="true"
+          />
+          <app-textarea
+            id="memo"
+            type="normal"
+            label="Memo"
+            [content]="item.memo"
+            [isAsk]="true"
+            [isReadOnly]="true"
+          />
+        </div>
+      </div>
+    </form>
+    <div class="flex flex-col gap-3">
+      <p class="text-center text-p-lg font-medium">
+        A List of Supporting Documents (According to User Input)
+      </p>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="flex gap-2 p-3 bg-neutral-20 rounded-xl items-center">
+          <input
+            type="checkbox"
+            name=""
+            id=""
+            class="w-5 h-5 checked:bg-neutral-60 bg-neutral-30 rounded-[4px] border border-neutral-30 checked:border-neutral-60"
+            checked
+          />
+          <label for="" class="text-p-md text-neutral-80"
+            >Form PB Y-001/002/003/004/005</label
+          >
+        </div>
+        <div class="flex gap-2 p-3 bg-neutral-20 rounded-xl items-center">
+          <input
+            type="checkbox"
+            name=""
+            id=""
+            class="w-5 h-5 bg-neutral-30 checked:bg-neutral-60 rounded-[4px] border border-neutral-30 checked:border-neutral-60"
+          />
+          <label for="" class="text-p-md text-neutral-80"
+            >Realokasi Anggaran</label
+          >
+        </div>
+      </div>
+      <div class="grid grid-cols-3 gap-3">
+        <div class="flex gap-2 p-3 bg-neutral-20 rounded-xl items-center">
+          <input
+            type="checkbox"
+            name=""
+            id=""
+            class="w-5 h-5 checked:bg-neutral-60 bg-neutral-30 rounded-[4px] border border-neutral-30 checked:border-neutral-60"
+            checked
+          />
+          <label for="" class="text-p-md text-neutral-80">HPS Document</label>
+        </div>
+        <div class="flex gap-2 p-3 bg-neutral-20 rounded-xl items-center">
+          <input
+            type="checkbox"
+            name=""
+            id=""
+            class="w-5 h-5 bg-neutral-30 checked:bg-neutral-60 rounded-[4px] border border-neutral-30 checked:border-neutral-60"
+          />
+          <label for="" class="text-p-md text-neutral-80"
+            >Profitability Analyst (PA)</label
+          >
+        </div>
+        <div class="flex gap-2 p-3 bg-neutral-20 rounded-xl items-center">
+          <input
+            type="checkbox"
+            name=""
+            id=""
+            class="w-5 h-5 bg-neutral-30 checked:bg-neutral-60 rounded-[4px] border border-neutral-30 checked:border-neutral-60"
+          />
+          <label for="" class="text-p-md text-neutral-80">Other</label>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="isVP">
+      <div class="flex flex-col gap-5">
+        <div
+          class="flex flex-row justify-between items-center pb-2 border-b border-b-primary-border"
+        >
+          <div>
+            <div class="text-p-lg font-medium text-neutral-100">
+              Note Memo VP TA
+            </div>
+            <p class="text-p-sm text-neutral-80">
+              You can insert a memo by clicking the toggle button
+            </p>
+          </div>
+        </div>
+        <div class="grid grid-cols-4 gap-4">
+          <app-input-text
+            type="normal"
+            [isReadOnly]="true"
+            id="memoNumber"
+            label="Memo Number"
+            value="TD/MEMO/144/23"
+          />
+          <app-input-text
+            type="normal"
+            [isReadOnly]="true"
+            id="date"
+            label="Date"
+            value="04 April 2023"
+          />
+          <app-input-text
+            type="normal"
+            [isReadOnly]="true"
+            id="from"
+            label="From"
+            value="TD"
+          />
+          <app-input-text
+            type="normal"
+            [isReadOnly]="true"
+            id="to"
+            label="To"
+            value="TX"
+          />
+        </div>
+        <app-textarea
+          type="normal"
+          id="note"
+          label="Note"
+          content="Keterangan detail : Renewal IDR 209,449,500. Lisensi aplikasi WEBEX meeting / confrence (7 ea). Lisensi Cloud device registration (5 ea). Addon Storage 100 Gb (1 ea). Lisensi Server CTI-CMS-1000-M5-K9 (2 ea). Lisensi Cisco Webex Video Integration for Microsoft Teams (5 ea). Estimasi biaya manage service infrastruktur maintenance selama 1 tahun sebesar RP 108.000.000 Total biaya yang dibutuhkan RP 317.449.500 (Konversi Kurs RKAP 2023 RP 14,350)"
+          [isAsk]="true"
+          [isReadOnly]="true"
+        />
+      </div>
+    </ng-container>
+  </div>
+  <div
+    class="flex flex-row justify-between items-center pb-2 border-b border-b-primary-border"
+  >
+    <div>
+      <div class="text-p-lg font-medium text-neutral-100">
+        Attachment File
+        <span class="text-tertiary-tx-red text-p-md">*</span>
+      </div>
+      <p class="text-p-sm text-neutral-80">
+        Submitting a budget requires you to add supporting files
+      </p>
+    </div>
+    <app-button
+      label="Upload File"
+      icon="assets/images/icons/ic-archive.svg"
+      type="primary"
+      data-modal-target="uploadFile"
+      data-modal-toggle="uploadFile"
+    />
+  </div>
+  <app-table type="createNewRequestTable">
+    <tbody *ngFor="let item of data.fileUploads; let i = index">
+      <tr
+        class="text-center border border-x-white border-t-white border-b-1 border-b-primary-border text-p-md tracking-[0.5px]"
+      >
+        <td class="p-4">
+          {{ i + 1 }}
+        </td>
+        <td>
+          {{ item.docName }}
+        </td>
+        <td>
+          {{ item.docType }}
+        </td>
+        <td>{{ item.docSize }} MB</td>
+        <td>
+          {{ item.createdBy }}
+        </td>
+        <td>
+          {{ item.department }}
+        </td>
+        <td>
+          {{ formatDate(item.createdAt) }}
+        </td>
+        <td></td>
+      </tr>
+    </tbody>
+  </app-table>
+  <div class="flex gap-2 mt-5 w-full items-center justify-center">
+    <app-button
+      icon="assets/images/icons/ic-save.svg"
+      type="primary"
+      label="Save"
+      *ngIf="
+        (data.statusId === 1 || data.statusId === 2) && userRole === 'USER'
+      "
+    />
+    <!-- get data dari BE untuk request verification , panggil si phasenya (dari statusId) kirim data sesuai yang diminta BE statusId,statusToId,status,config{button} -->
+
+    <app-button
+      icon="assets/images/icons/ic-check-circle.svg"
+      type="success"
+      label="Confirm"
+      *ngIf="
+        (userRole === 'SM_USER' && data.statusId === 2) ||
+        (userRole === 'TXC-3' && data.statusId === 7)
+      "
+      (click)="updateDataStatusId()"
+    />
+    <app-button
+      icon="assets/images/icons/ic-check-circle.svg"
+      type="success"
+      label="Submit"
+      *ngIf="data.statusId === 1 && userRole === 'USER'"
+      (click)="updateDataStatusId()"
+    />
+    <!-- BE bikin endpoint untuk updated data (sesuai data dari Realisasi) FE bikin service updated dipake componentnya , bikin 1 method untuk update , lalu dipake di htmlnya-->
+    <app-button
+      icon="assets/images/icons/ic-check-circle.svg"
+      type="primary"
+      label="Preview"
+    />
+
+    <app-button
+      icon="assets/images/icons/ic-check-circle.svg"
+      type="primary"
+      label="Take Project"
+      *ngIf="
+        (userRole === 'TAB' &&
+          data.statusId === 4 &&
+          data.personalNumberTo == null) ||
+        (userRole === 'TXC-3' && data.statusId === 7)
+      "
+      (click)="takeProjectData()"
+    />
+    <app-button
+      icon="assets/images/icons/ic-check-circle.svg"
+      type="primary-not-active"
+      label="Untake Project"
+      *ngIf="
+        (userRole === 'TAB' &&
+          data.statusId === 4 &&
+          data.personalNumberTo != null) ||
+        (userRole === 'TXC-3' && data.statusId === 7)
+      "
+      (click)="untakeProjectData()"
+    />
+
+    <app-button
+      icon="assets/images/icons/ic-pencil-square.svg"
+      type="info"
+      label="Edit"
+      *ngIf="data.statusId === 1 && userRole === 'USER'"
+    />
+    <app-button
+      icon="assets/images/icons/ic-pencil-square.svg"
+      type="info"
+      label="Edit Realokasi"
+      *ngIf="data.statusId === 1 && userRole === 'USER'"
+    />
+    <app-button
+      icon="assets/images/icons/ic-pencil-square.svg"
+      type="info"
+      label="Revise"
+      data-modal-target="needApprovalRevise"
+      data-modal-toggle="needApprovalRevise"
+      *ngIf="
+        (userRole === 'SM_USER' && data.statusId === 2) ||
+        userRole === 'VP_USER' ||
+        userRole === 'TAB'
+      "
+    />
+    <app-button
+      icon="assets/images/icons/ic-pencil-square.svg"
+      type="danger"
+      label="Reject"
+      data-modal-target="needApprovalReject"
+      data-modal-toggle="needApprovalReject"
+      *ngIf="
+        (data.statusId > 3 && userRole !== 'USER') ||
+        (userRole === 'SM_USER' && data.statusId === 2) ||
+        userRole === 'VP_USER' ||
+        userRole === 'TAB'
+      "
+    />
+    <app-button
+      icon="assets/images/icons/ic-pencil-square.svg"
+      type="danger"
+      label="Need HPS"
+      data-modal-target="needApprovalNeedHps"
+      data-modal-toggle="needApprovalNeedHps"
+      *ngIf="
+        (data.statusId > 3 && userRole !== 'USER') ||
+        (userRole === 'TAB' && data.statusId === 4)
+      "
+    />
+    <app-button
+      icon="assets/images/icons/ic-check-circle.svg"
+      type="success"
+      label="Approve"
+      (click)="updateDataStatusId()"
+      *ngIf="
+        (userRole === 'VP_USER' && data.statusId === 3) ||
+        (userRole === 'TAB' && data.statusId === 4) ||
+        (userRole === 'SM_TAB' && data.statusId === 5) ||
+        (userRole === 'VP_TA' && data.statusId === 6) ||
+        (userRole === 'SM_TXC' && data.statusId === 8) ||
+        (userRole === 'VP_TX' && data.statusId === 8)
+      "
+    />
+  </div>
+  <app-modal type=" needApprovalRevise" />
+  <app-modal type="needApprovalReject" [data]="data" />
+  <app-modal type="needApprovalNeedHps" [data]="data" />
+  <app-modal type="needApprovalApprove" [data]="data" />
+</section>

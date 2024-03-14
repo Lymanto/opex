@@ -1,0 +1,612 @@
+<app-layout currentUrl="/dashboard">
+  <div
+    class="p-4 border border-primary-border rounded-3xl bg-neutral-10 flex flex-col gap-4"
+  >
+    <div class="flex justify-between items-center">
+      <app-button
+        icon="assets/images/icons/ic-arrow-left.svg"
+        type="primary-not-active"
+        label="Back"
+        [isHref]="true"
+        href="/dashboard"
+      />
+      <p class="text-p-lg font-medium">Create Request Realization</p>
+      <app-button
+        icon="assets/images/icons/ic-reset.svg"
+        type="danger-not-active"
+        label="Reset"
+        (click)="resetAll()"
+      />
+    </div>
+    <div class="flex flex-col gap-4">
+      <div class="grid grid-cols-3 gap-4">
+        <app-input-text
+          label="Entry Date"
+          type="normal"
+          id="entryDate"
+          [value]="currentDate"
+          [isReadOnly]="true"
+        ></app-input-text>
+        <app-input-text
+          type="normal"
+          id="requestNumber"
+          placeholder="Fill this.."
+          label="User (Dinas)"
+          [isReadOnly]="true"
+          [value]="costCenterData?.dinas"
+        ></app-input-text>
+        <app-select-box
+          id="typeSubmission"
+          label="Type of Submission"
+          type="typeSubmission"
+          [required]="true"
+          (selectedValue)="getValueTypeSubmission($event)"
+          [data]="[
+          {
+            id:'UANG_MUKA',
+            value:'Uang Muka',
+          },
+          {
+            id:'PENGADAAN',
+            value:'Pengadaaan'
+          },
+          {
+            id:'QUALITY',
+            value:'Quality'
+          },
+          {
+            id:'FACILITY',
+            value:'Facility'
+          },
+          {
+            id:'ICT',
+            value:'ICT'
+          },
+          {
+            id:'ENTERTAINMENT',
+            value:'Entertainment'
+          },
+          {
+            id:'REIMBURSEMENT',
+            value:'Reimbursement'
+          }
+          ]"
+        ></app-select-box>
+      </div>
+      <div class="grid grid-cols-4 gap-4">
+        <app-input-text
+          type="normal"
+          id="nameOfRequest"
+          placeholder="Fill this.."
+          label="Name of Request"
+          [isReadOnly]="true"
+          [value]="userInfo.personalName"
+        ></app-input-text>
+        <app-input-text
+          type="normal"
+          id="idNumber"
+          placeholder="Fill this.."
+          label="ID Number"
+          [isReadOnly]="true"
+          [value]="userInfo.personalNumber"
+        ></app-input-text>
+
+        <app-select-box
+          [required]="true"
+          id="responsibleOfRequest"
+          label="Responsible of Request"
+          type="normal"
+          [data]="userData"
+          placeholder="Fill This.."
+          (selectedValue)="getValue($event)"
+        ></app-select-box>
+        <app-input-text
+          type="normal"
+          id="idNumber"
+          placeholder="Fill this.."
+          label="ID Number"
+          [value]="idResponsibleNumber"
+          [isReadOnly]="true"
+        ></app-input-text>
+      </div>
+    </div>
+    <app-textarea
+      id="titleOfRequest"
+      label="Title of Request"
+      [required]="true"
+      type="normal"
+      [content]="titleRequest"
+      (value)="getTitleRequest($event)"
+      [isAsk]="true"
+    ></app-textarea>
+    <app-textarea
+      id="noteOfRequest"
+      label="Note of Request"
+      [required]="true"
+      type="rich"
+      [editorData]="noteRequest"
+      (value)="getNoteRequest($event)"
+      [isAsk]="true"
+    ></app-textarea>
+
+    <div class="flex flex-col gap-3">
+      <div
+        class="flex flex-row justify-between items-center pb-2 border-b border-b-primary-border"
+      >
+        <div>
+          <div
+            class="text-p-lg font-medium text-neutral-100 after:content-['*'] after:text-tertiary-tx-red"
+          >
+            Item
+          </div>
+          <p class="text-p-sm text-neutral-80">
+            As many items as you need can be added
+          </p>
+        </div>
+        <app-button
+          label="Add"
+          icon="assets/images/icons/ic-plus-circle-blue.svg"
+          type="primary-not-active"
+          (click)="addItems()"
+        >
+        </app-button>
+      </div>
+      <form
+        [formGroup]="itemsForm"
+        *ngFor="let item of getItems.controls; let i = index"
+      >
+        <div class="flex flex-col gap-4" formArrayName="items">
+          <div
+            class="flex-col gap-4 p-4 box-border border border-primary-border rounded-3xl bg-primary-bg-2"
+            [ngClass]="{
+              flex: isDisplay,
+              hidden: !isDisplay
+            }"
+            formGroupName="{{ i }}"
+          >
+            <div class="flex justify-between items-center">
+              <div class="flex flex-col justify-center items-center">
+                <p class="text-p-sm text-neutral-60 p-0 m-0 leading-3">Item</p>
+                <p class="text-p-lg font-semibold text-neutral-100">
+                  {{ i + 1 }}
+                </p>
+              </div>
+              <div class="flex flex-row gap-3">
+                <app-button
+                  *ngIf="showDeleteButton(i)"
+                  label="Delete"
+                  icon="assets/images/icons/ic-trash-red.svg"
+                  type="danger-not-active"
+                  (click)="removeItem(i)"
+                ></app-button>
+                <app-button
+                  label="Hide Item"
+                  [icon]="
+                    isDisplay
+                      ? 'assets/images/icons/ic-eye-white-slash.svg'
+                      : 'assets/images/icons/ic-eye-blue.svg'
+                  "
+                  [label]="isDisplay ? 'Hide Item' : 'Show Item'"
+                  [type]="isDisplay ? 'primary' : 'primary-not-active'"
+                  (click)="isDisplay = !isDisplay"
+                >
+                </app-button>
+              </div>
+            </div>
+            <hr class="w-full h-px bg-primary-border border-0" />
+            <!-- <div>
+              <app-select-box
+                type="normal"
+                id="Group Description"
+                label="Group Description"
+                [required]="true"
+                [data]="selectGroupData"
+                (selectedValue)="getValueGLItem($event, i)"
+              >
+              </app-select-box>
+            </div> -->
+            <div class="grid grid-cols-3 gap-4">
+              <app-select-box
+                id="group"
+                label="Group"
+                [data]="selectGroupData"
+                (selectedValue)="getValueGLItem($event, i)"
+              />
+              <!-- <app-input-text
+                id="group"
+                label="Group"
+                [isAsk]="true"
+                type="normalControl"
+                formControlName="groupControl"
+                [value]="item.get('groupControl')?.value"
+                [isReadOnly]="true"
+              /> -->
+              <ng-container *ngIf="isGroupSelected">
+                <app-select-box
+                  id="groupDetail"
+                  label="Group Detail"
+                  [data]="selectGroupDetailData"
+                  (selectedValue)="getValueGLDetailItem($event, i)"
+                />
+              </ng-container>
+              <ng-container *ngIf="!isGroupSelected">
+                <app-input-text
+                  id="groupDetail"
+                  label="Group Detail"
+                  [isAsk]="true"
+                  type="normalControl"
+                  [isReadOnly]="true"
+                />
+              </ng-container>
+              <app-input-text
+                label="G/L Number"
+                [isAsk]="true"
+                type="normalControl"
+                [isReadOnly]="true"
+                formControlName="GLNumberControl"
+                [value]="item.get('GLNumberControl')?.value"
+                id="glAccount"
+              />
+            </div>
+            <div class="grid grid-cols-4 gap-4">
+              <app-input-text
+                type="currency"
+                id="available"
+                label="Available"
+                formControlName="availableControl"
+                [isDisabled]="true"
+                [value]="item.get('availableControl')?.value"
+              />
+              <app-input-text
+                type="amount-submission"
+                id="amountSubmission"
+                label="Amount Submission"
+                [currentKurs]="currentKurs"
+                formControlName="amountSubmissionControl"
+                [available]="item.get('availableControl')?.value"
+              />
+              <app-input-date
+                label="Period Start"
+                id="periodStart"
+                [isAsk]="true"
+                [required]="true"
+                formControlName="periodStartControl"
+              />
+              <app-input-date
+                label="Period Finish"
+                id="periodFinish"
+                [isAsk]="true"
+                [required]="true"
+                formControlName="periodFinishControl"
+              />
+            </div>
+            <app-input-text
+              type="normalControl"
+              id="descriptionPB"
+              label="Description PB-Y-02"
+              [isAsk]="true"
+              [required]="true"
+              formControlName="descriptionControl"
+            />
+            <app-input-text
+              type="normalControl"
+              id="remarkListPB"
+              label="Remark List PB-Y-02"
+              formControlName="remarkControl"
+              [isAsk]="true"
+              [required]="true"
+            />
+          </div>
+
+          <div
+            class="flex-row justify-between p-4 box-border border border-primary-border rounded-3xl bg-primary-bg-2"
+            [ngClass]="{
+              flex: !isDisplay,
+              hidden: isDisplay
+            }"
+          >
+            <div class="flex items-center text-center">
+              <div class="flex flex-col justify-center items-center pr-3">
+                <p class="text-p-sm text-neutral-60 p-0 m-0 leading-3">Item</p>
+                <p class="text-p-lg font-semibold text-neutral-100">
+                  {{ i + 1 }}
+                </p>
+              </div>
+
+              <div class="border-l border-primary-border p-3">
+                <p class="text-p-sm text-neutral-60 p-0 m-0 leading-3">Group</p>
+                <p class="text-p-lg font-semibold text-neutral-100">
+                  {{ item.get("groupControl")?.value }}
+                </p>
+              </div>
+              <div class="border-l border-primary-border p-3">
+                <p class="text-p-sm text-neutral-60 p-0 m-0 leading-3">
+                  Group Detail
+                </p>
+                <p class="text-p-lg font-semibold text-neutral-100">
+                  {{ item.get("groupDetailControl")?.value }}
+                </p>
+              </div>
+              <div class="border-l border-primary-border p-3">
+                <p class="text-p-sm text-neutral-60 p-0 m-0 leading-3">
+                  G/L Number
+                </p>
+                <p class="text-p-lg font-semibold text-neutral-100">
+                  {{ item.get("GLNumberControl")?.value }}
+                </p>
+              </div>
+              <div class="border-l border-primary-border p-3">
+                <p class="text-p-sm text-neutral-60 p-0 m-0 leading-3">
+                  Amount Submission
+                </p>
+                <p class="text-p-lg font-semibold text-neutral-100">
+                  {{ item.get("amountSubmissionControl")?.value }} USD
+                </p>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <app-button
+                *ngIf="showDeleteButton(i)"
+                label="Delete"
+                icon="assets/images/icons/ic-trash-red.svg"
+                type="danger-not-active"
+                (click)="removeItem(i)"
+              ></app-button>
+              <app-button
+                label="Hide Item"
+                [icon]="
+                  isDisplay
+                    ? 'assets/images/icons/ic-eye-white-slash.svg'
+                    : 'assets/images/icons/ic-eye-blue.svg'
+                "
+                [label]="isDisplay ? 'Hide Item' : 'Show Item'"
+                [type]="isDisplay ? 'primary' : 'primary-not-active'"
+                (click)="isDisplay = !isDisplay"
+              >
+              </app-button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div
+      class="flex flex-row justify-between items-center pb-2 border-b border-b-primary-border"
+    >
+      <div>
+        <div class="text-p-lg font-medium text-neutral-100">
+          Dokument Pendukung
+          <span class="text-tertiary-tx-red text-p-md">*</span>
+        </div>
+        <p class="text-p-sm text-neutral-80">
+          Lampirkan dokumen pendukung, seperti FS/CBA/RA atau yang lainnya
+        </p>
+      </div>
+      <app-button
+        label="Upload File"
+        icon="assets/images/icons/ic-archive.svg"
+        type="primary"
+        data-modal-target="uploadFile"
+        data-modal-toggle="uploadFile"
+      />
+    </div>
+    <app-table type="createNewRequestTable">
+      <tbody *ngFor="let item of requestBody; let i = index">
+        <tr
+          class="text-center border border-x-white border-t-white border-b-1 border-b-primary-border text-p-md tracking-[0.5px]"
+        >
+          <td class="p-4">{{ i + 1 }}</td>
+          <td>{{ item.documentName }}</td>
+          <td>{{ item.documentType }}</td>
+          <td>{{ item.size }}</td>
+          <td>{{ item.uploadBy }}</td>
+          <td>{{ item.departmentBy }}</td>
+          <td>{{ item.uploadDate }}</td>
+          <td>
+            <div class="flex justify-between items-center">
+              <div class="flex gap-3 mx-auto">
+                <app-button
+                  icon="assets/images/icons/ic-trash.svg"
+                  type="action-danger"
+                  (click)="
+                    requestBody.splice(i, 1);
+                    files = [];
+                    docCategories = [];
+                    docNames = []
+                  "
+                />
+                <app-button
+                  icon="assets/images/icons/ic-pencil-square-green.svg"
+                  type="action-success"
+                />
+                <app-button
+                  icon="assets/images/icons/ic-eye-blue.svg"
+                  type="action-primary"
+                />
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </app-table>
+    <div class="flex gap-2 mt-5 w-full items-center justify-center">
+      <app-button
+        icon="assets/images/icons/ic-save.svg"
+        [type]="!isDisabledSave ? 'primary' : 'secondary'"
+        label="Save"
+        [isDisabled]="isDisabledSave"
+        (click)="save()"
+        *ngIf="userRole === 'USER'"
+      />
+      <app-button
+        icon="assets/images/icons/ic-arrow-path-rounded-square.svg"
+        type="danger"
+        label="Create Realokasi"
+        data-modal-target="overlimitBudget"
+        data-modal-toggle="overlimitBudget"
+        *ngIf="userRole === 'USER'"
+      />
+      <app-button
+        icon="assets/images/icons/ic-check-circle.svg"
+        [type]="!isDisabledSubmit ? 'success' : 'secondary'"
+        label="Submit"
+        [isDisabled]="isDisabledSubmit"
+        (click)="submit()"
+        *ngIf="userRole === 'USER'"
+      />
+      <app-button
+        icon="assets/images/icons/ic-arrow-path-rounded-square.svg"
+        type="secondary"
+        label="Create Realokasi"
+        *ngIf="userRole !== 'USER'"
+      />
+      <app-button
+        icon="assets/images/icons/ic-pencil-square.svg"
+        type="info"
+        label="Edit Realokasi"
+        *ngIf="userRole === 'USER'"
+      />
+      <app-button
+        icon="assets/images/icons/ic-check-circle.svg"
+        type="secondary"
+        label="Submit"
+        *ngIf="userRole !== 'USER'"
+      />
+    </div>
+  </div>
+  <app-modal type="uploadFile">
+    <div class="relative w-full max-w-md max-h-full">
+      <div
+        class="relative bg-neutral-10 border border-primary-border rounded-3xl shadow dark:bg-gray-700"
+      >
+        <div class="text-center mt-6"><h6>Upload File</h6></div>
+        <div class="flex items-center justify-center w-full">
+          <label
+            for="dropzone-file"
+            class="flex flex-col items-center justify-center mx-6 mt-6 w-[400px] h-[160px] border border-primary-border rounded-2xl cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+          >
+            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+              <div class="mb-3">
+                <img src="assets/images/icons/ic-form-upload.svg" alt="" />
+              </div>
+              <p
+                class="mb-1 text-p-md text-primary-hover font-medium text-center"
+              >
+                {{
+                  uploadedFile
+                    ? "Uploaded file: " + uploadedFile.name
+                    : "Upload a file or drag and drop"
+                }}
+              </p>
+              <p class="text-p-sm text-gray-500 dark:text-gray-400">
+                Only PDF files can be uploaded & Maks file 1 MB
+              </p>
+            </div>
+            <input
+              id="dropzone-file"
+              type="file"
+              class="hidden"
+              accept=".pdf"
+              [value]="uploadedFile"
+              (change)="uploadFile($event)"
+            />
+          </label>
+        </div>
+        <div
+          class="flex flex-col items-start justify-start border border-primary-border bg-primary-bg-2 rounded-xl mt-2 mx-6 p-2 gap-2 box-border"
+        >
+          <div class="flex justify-between items-center gap-1">
+            <span>
+              <img src="assets/images/icons/ic-paper-clip.svg" alt="" />
+            </span>
+            <span class="text-primary-hover text-p-sm">{{
+              uploadedFile ? uploadedFile.name : "-"
+            }}</span>
+            <ng-container *ngIf="uploadedFile">
+              <img
+                src="assets/images/icons/ic-x-circle.svg"
+                class="w-4 h-4"
+                alt="ic x circle"
+                (click)="
+                  uploadedFile = null;
+                  isUploadSuccess = false;
+                  fileSize = '';
+                  isUploadError = false
+                "
+              />
+            </ng-container>
+          </div>
+          <ng-container *ngIf="isUploadSuccess">
+            <p class="text-p-sm text-tertiary-br-green">Upload Success</p>
+          </ng-container>
+          <ng-container *ngIf="isUploadError">
+            <p class="text-p-sm text-tertiary-tx-red">{{ uploadError }}</p>
+          </ng-container>
+          <!-- <div class="flex flex-row gap-1 items-center w-full">
+        <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+            <div
+              class="bg-blue-600 h-2.5 rounded-full"
+              style="width: 45%"
+            ></div>
+          </div>
+          <span
+            class="text-caption font-medium text-neutral-100 dark:text-white"
+          >
+            45%
+          </span>
+        </div> -->
+        </div>
+        <div class="mx-6 mt-3">
+          <app-input-text
+            type="normal"
+            id="documentName"
+            placeholder="Fill this.."
+            label="Document Name"
+            (currentValue)="getValueDocName($event)"
+            [value]="docName"
+            [required]="true"
+          ></app-input-text>
+        </div>
+        <div class="mx-6 mt-2">
+          <app-select-box
+            id="docType"
+            label="Doc. Type"
+            [required]="true"
+            [data]="selectDocumentCategoryData"
+            (selectedValue)="getValueDocType($event)"
+            [value]="modalDocumentType"
+          ></app-select-box>
+        </div>
+        <div class="mx-6 mt-2">
+          <app-input-text
+            type="normal"
+            id="size"
+            label="Size"
+            [isDisabled]="true"
+            [value]="fileSize"
+          />
+        </div>
+        <div class="px-6 pb-6 text-center mt-10">
+          <div class="grid grid-cols-2 items-center justify-center gap-3">
+            <app-button
+              type="primary-not-active"
+              label="Cancel"
+              data-modal-hide="uploadFile"
+              [hasIcon]="false"
+              [isFull]="true"
+            />
+
+            <app-button
+              [isFull]="true"
+              type="primary"
+              label="Upload Now"
+              (click)="uploadToTable()"
+              [hasIcon]="false"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </app-modal>
+  <app-modal type="overlimitBudget" />
+</app-layout>

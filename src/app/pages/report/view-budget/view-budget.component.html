@@ -1,0 +1,581 @@
+<app-layout currentUrl="/report" currentUrlSubMenu="/view-budget">
+  <div
+    class="p-4 border border-primary-border rounded-3xl bg-neutral-10 flex flex-col gap-4"
+  >
+    <div
+      class="flex flex-row justify-between items-center border border-b-primary-border border-t-neutral-10 border-x-neutral-10 py-4"
+    >
+      <h2 class="text-subheading font-medium text-neutral-100">List of Data</h2>
+    </div>
+    <div
+      class="grid justify-between items-center grid-cols-2 gap-3 border border-b-primary-border border-t-neutral-10 border-x-neutral-10 py-4"
+    >
+      <app-select-box
+        id="years"
+        label="Years"
+        [data]="yearsData"
+        [value]="toString(yearsSelected)"
+        (selectedValue)="getValueSelectBox($event)"
+      ></app-select-box>
+      <app-input-text
+        type="normal"
+        id="dinas"
+        label="Dinas"
+        [isReadOnly]="true"
+        [value]="costCenterData?.dinas"
+      ></app-input-text>
+    </div>
+    <div
+      class="flex flex-col gap-4 p-4 box-border border border-primary-border rounded-3xl bg-primary-bg-2"
+    >
+      <div
+        class="grid justify-between items-center grid-cols-2 gap-3 border border-b-primary-border border-t-primary-bg-2 border-x-primary-bg-2 py-4"
+      >
+        <app-select-box
+          id="group"
+          label="Group"
+          [data]="selectGroupData"
+          (selectedValue)="getValueGLItem($event)"
+        />
+        <ng-container *ngIf="isGroupSelected">
+          <app-select-box
+            id="groupDetail"
+            label="Group Detail"
+            [data]="selectGroupDetailData"
+            (selectedValue)="getValueMTDYTD($event)"
+          />
+        </ng-container>
+        <ng-container *ngIf="!isGroupSelected">
+          <app-input-text
+            id="groupDetail"
+            label="Group Detail"
+            [isAsk]="true"
+            type="normalControl"
+            [isReadOnly]="true"
+          />
+        </ng-container>
+      </div>
+      <div>
+        <div class="grid justify-center items-center grid-cols-5 gap-3 mt-1">
+          <div class="flex flex-col gap-1 items-center justify-center">
+            Budget MTD
+            <div
+              class="border border-primary-border bg-primary-border rounded-2xl text-p-md font-semibold text-center items-center p-3 w-full"
+            >
+              1.759.077
+            </div>
+          </div>
+          <div class="flex flex-col gap-1 items-center justify-center">
+            Actual MTD
+            <div
+              class="border border-primary-border bg-primary-border rounded-2xl text-p-md font-semibold text-center items-center p-3 w-full"
+            >
+              1.759.077
+            </div>
+          </div>
+          <div class="flex flex-col gap-1 items-center justify-center">
+            Budget YTD
+            <div
+              class="border border-primary-border bg-primary-border rounded-2xl text-p-md font-semibold text-center items-center p-3 w-full"
+            >
+              1.759.077
+            </div>
+          </div>
+          <div class="flex flex-col gap-1 items-center justify-center">
+            Actual MTD
+            <div
+              class="border border-primary-border bg-primary-border rounded-2xl text-p-md font-semibold text-center items-center p-3 w-full"
+            >
+              1.759.077
+            </div>
+          </div>
+          <div class="flex flex-col gap-1 items-center justify-center">
+            Total Remaining Budget
+            <div
+              class="border border-primary-border bg-primary-border rounded-2xl text-p-md font-semibold text-center items-center p-3 w-full"
+            >
+              1.759.077
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-3 min-w-full overflow-x-auto">
+      <div
+        class="border border-primary-border bg-neutral-10 rounded-3xl p-4 w-full mt-4"
+      >
+        <div class="flex justify-between items-center">
+          <div class="flex flex-col justify-start items-start">
+            <p class="text-p-sm text-neutral-60 p-0 m-0 leading-3">
+              Description
+            </p>
+            <p class="text-p-lg font-semibold text-neutral-100">RKAP Budget</p>
+          </div>
+          <app-button
+            [icon]="
+              isDisplayRkap
+                ? 'assets/images/icons/ic-arrow-down.svg'
+                : 'assets/images/icons/ic-arrow-up-active.svg'
+            "
+            [type]="isDisplayRkap ? 'primary-not-active' : 'primary'"
+            (click)="isDisplayRkap = !isDisplayRkap"
+          >
+            >
+          </app-button>
+        </div>
+      </div>
+
+      <ng-container *ngIf="!isDisplayRkap">
+        <div class="flex">
+          <div>
+            <table class="w-full">
+              <tr
+                class="text-center border border-b-2 border-x-white border-t-white border-b-primary-hover text-p-md tracking-[0.5px] whitespace-nowrap sticky top-0"
+              >
+                <th class="px-4">Action</th>
+                <th *ngFor="let column of headers" class="px-4">
+                  {{ column }}
+                </th>
+              </tr>
+              <tbody *ngFor="let item of dataRKAP; let i = index">
+                <tr
+                  class="text-center border border-x-white border-t-white border-b-1 border-b-primary-border text-p-md tracking-[0.5px] whitespace-nowrap"
+                >
+                  <td>
+                    <button (click)="onClickRKAP(i)" type="button" class="">
+                      <div
+                        class="text-p-sm mx-auto tracking-[0.5px] border-solid border-2 border-primary-border text-primary-hover text-center w-[22px] h-[22px] rounded-full bg-tertiary-white"
+                        [ngClass]="{
+                            'bg-primary-hover':i === activeIdRKAP,
+                            'border-primary-hover':i === activeIdRKAP,
+                          }"
+                      >
+                        <img
+                          [src]="
+                            i === activeIdRKAP
+                              ? 'assets/images/icons/ic-arrow-up-active.svg'
+                              : 'assets/images/icons/ic-arrow-down.svg'
+                          "
+                          alt="Arrow down"
+                        />
+                      </div>
+                    </button>
+                  </td>
+                  <td class="h-[56px] px-4">{{ item.title }}</td>
+                  <td class="h-[56px] px-4">-</td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.total) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.JANUARI) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.FEBRUARI) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.MARET) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.APRIL) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.MEI) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.JUNI) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.JULI) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.AGUSTUS) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.SEPTEMBER) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.OKTOBER) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.NOVEMBER) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.DESEMBER) }}
+                  </td>
+                </tr>
+                <ng-container *ngIf="i === activeIdRKAP">
+                  <tr
+                    *ngFor="let subItem of item.groupDetail; let j = index"
+                    class="text-center border border-x-white border-t-white border-b-1 border-b-primary-border bg-primary-bg-2 text-p-md tracking-[0.5px] whitespace-nowrap"
+                  >
+                    <td class="h-[56px] px-4"></td>
+                    <td class="h-[56px] px-4">{{ subItem.title }}</td>
+                    <td class="h-[56px] px-4">{{ subItem.glNumber }}</td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.total) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.JANUARI) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.FEBRUARI) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.MARET) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.APRIL) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.MEI) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.JUNI) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.JULI) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.AGUSTUS) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.SEPTEMBER) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.OKTOBER) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.NOVEMBER) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.DESEMBER) }}
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </ng-container>
+      <div
+        class="border border-primary-border bg-neutral-10 rounded-3xl p-4 w-full mt-4"
+      >
+        <div class="flex justify-between items-center">
+          <div class="flex flex-col justify-start items-start">
+            <p class="text-p-sm text-neutral-60 p-0 m-0 leading-3">
+              Description
+            </p>
+            <p class="text-p-lg font-semibold text-neutral-100">
+              Actual Realization
+            </p>
+          </div>
+          <app-button
+            [icon]="
+              isDisplayActual
+                ? 'assets/images/icons/ic-arrow-down.svg'
+                : 'assets/images/icons/ic-arrow-up-active.svg'
+            "
+            [type]="isDisplayActual ? 'primary-not-active' : 'primary'"
+            (click)="isDisplayActual = !isDisplayActual"
+          >
+            >
+          </app-button>
+        </div>
+      </div>
+      <ng-container *ngIf="!isDisplayActual">
+        <div class="flex">
+          <div>
+            <table class="w-full">
+              <tr
+                class="text-center border border-b-2 border-x-white border-t-white border-b-primary-hover text-p-md tracking-[0.5px] whitespace-nowrap sticky top-0"
+              >
+                <th class="px-4">Action</th>
+                <th *ngFor="let column of headers" class="px-4">
+                  {{ column }}
+                </th>
+              </tr>
+              <tbody *ngFor="let item of dataActual; let i = index">
+                <tr
+                  class="text-center border border-x-white border-t-white border-b-1 border-b-primary-border text-p-md tracking-[0.5px] whitespace-nowrap"
+                >
+                  <td>
+                    <button (click)="onClickActual(i)" type="button" class="">
+                      <div
+                        class="text-p-sm mx-auto tracking-[0.5px] border-solid border-2 border-primary-border text-primary-hover text-center w-[22px] h-[22px] rounded-full bg-tertiary-white"
+                        [ngClass]="{
+                            'bg-primary-hover':i === activeIdActual,
+                            'border-primary-hover':i === activeIdActual,
+                          }"
+                      >
+                        <img
+                          [src]="
+                            i === activeIdActual
+                              ? 'assets/images/icons/ic-arrow-up-active.svg'
+                              : 'assets/images/icons/ic-arrow-down.svg'
+                          "
+                          alt="Arrow down"
+                        />
+                      </div>
+                    </button>
+                  </td>
+                  <td class="h-[56px] px-4">{{ item.title }}</td>
+                  <td class="h-[56px] px-4">-</td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.total) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.JANUARI) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.FEBRUARI) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.MARET) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.APRIL) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.MEI) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.JUNI) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.JULI) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.AGUSTUS) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.SEPTEMBER) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.OKTOBER) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.NOVEMBER) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.DESEMBER) }}
+                  </td>
+                </tr>
+                <ng-container *ngIf="i === activeIdActual">
+                  <tr
+                    *ngFor="let subItem of item.groupDetail; let j = index"
+                    class="text-center border border-x-white border-t-white border-b-1 border-b-primary-border bg-primary-bg-2 text-p-md tracking-[0.5px] whitespace-nowrap"
+                  >
+                    <td class="h-[56px] px-4"></td>
+                    <td class="h-[56px] px-4">{{ subItem.title }}</td>
+                    <td class="h-[56px] px-4">{{ subItem.glNumber }}</td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.total) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.JANUARI) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.FEBRUARI) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.MARET) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.APRIL) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.MEI) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.JUNI) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.JULI) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.AGUSTUS) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.SEPTEMBER) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.OKTOBER) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.NOVEMBER) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.DESEMBER) }}
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </ng-container>
+      <div
+        class="border border-primary-border bg-neutral-10 rounded-3xl p-4 w-full mt-4"
+      >
+        <div class="flex justify-between items-center">
+          <div class="flex flex-col justify-start items-start">
+            <p class="text-p-sm text-neutral-60 p-0 m-0 leading-3">
+              Description
+            </p>
+            <p class="text-p-lg font-semibold text-neutral-100">
+              Remaining Budget
+            </p>
+          </div>
+          <app-button
+            [icon]="
+              isDisplayRemaining
+                ? 'assets/images/icons/ic-arrow-down.svg'
+                : 'assets/images/icons/ic-arrow-up-active.svg'
+            "
+            [type]="isDisplayRemaining ? 'primary-not-active' : 'primary'"
+            (click)="isDisplayRemaining = !isDisplayRemaining"
+          >
+            >
+          </app-button>
+        </div>
+      </div>
+      <ng-container *ngIf="!isDisplayRemaining">
+        <div class="flex">
+          <div>
+            <table class="w-full">
+              <tr
+                class="text-center border border-b-2 border-x-white border-t-white border-b-primary-hover text-p-md tracking-[0.5px] whitespace-nowrap sticky top-0"
+              >
+                <th class="px-4">Action</th>
+                <th *ngFor="let column of headers" class="px-4">
+                  {{ column }}
+                </th>
+              </tr>
+              <tbody *ngFor="let item of dataRemaining; let i = index">
+                <tr
+                  class="text-center border border-x-white border-t-white border-b-1 border-b-primary-border text-p-md tracking-[0.5px] whitespace-nowrap"
+                >
+                  <td>
+                    <button
+                      (click)="onClickRemaining(i)"
+                      type="button"
+                      class=""
+                    >
+                      <div
+                        class="text-p-sm mx-auto tracking-[0.5px] border-solid border-2 border-primary-border text-primary-hover text-center w-[22px] h-[22px] rounded-full bg-tertiary-white"
+                        [ngClass]="{
+                            'bg-primary-hover':i === activeIdRemaining,
+                            'border-primary-hover':i === activeIdRemaining,
+                          }"
+                      >
+                        <img
+                          [src]="
+                            i === activeIdRemaining
+                              ? 'assets/images/icons/ic-arrow-up-active.svg'
+                              : 'assets/images/icons/ic-arrow-down.svg'
+                          "
+                          alt="Arrow down"
+                        />
+                      </div>
+                    </button>
+                  </td>
+                  <td class="h-[56px] px-4">{{ item.title }}</td>
+                  <td class="h-[56px] px-4">-</td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.total) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.JANUARI) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.FEBRUARI) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.MARET) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.APRIL) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.MEI) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.JUNI) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.JULI) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.AGUSTUS) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.SEPTEMBER) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.OKTOBER) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.NOVEMBER) }}
+                  </td>
+                  <td class="h-[56px] px-4">
+                    {{ currencyFormat(item.month.DESEMBER) }}
+                  </td>
+                </tr>
+                <ng-container *ngIf="i === activeIdRemaining">
+                  <tr
+                    *ngFor="let subItem of item.groupDetail; let j = index"
+                    class="text-center border border-x-white border-t-white border-b-1 border-b-primary-border bg-primary-bg-2 text-p-md tracking-[0.5px] whitespace-nowrap"
+                  >
+                    <td class="h-[56px] px-4"></td>
+                    <td class="h-[56px] px-4">{{ subItem.title }}</td>
+                    <td class="h-[56px] px-4">{{ subItem.glNumber }}</td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.total) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.JANUARI) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.FEBRUARI) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.MARET) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.APRIL) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.MEI) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.JUNI) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.JULI) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.AGUSTUS) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.SEPTEMBER) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.OKTOBER) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.NOVEMBER) }}
+                    </td>
+                    <td class="h-[56px] px-4">
+                      {{ currencyFormat(subItem.month.DESEMBER) }}
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</app-layout>

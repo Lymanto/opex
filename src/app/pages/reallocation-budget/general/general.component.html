@@ -1,0 +1,87 @@
+<app-layout currentUrl="/reallocation-budget" currentUrlSubMenu="/general">
+  <div
+    class="p-4 border border-primary-border rounded-3xl bg-neutral-10 flex flex-col gap-4"
+  >
+    <div class="flex flex-row justify-between items-center">
+      <h2 class="text-subheading font-medium text-neutral-100">List of Data</h2>
+      <div class="flex flex-row gap-3">
+        <app-button
+          [icon]="
+            isFilterActive
+              ? 'assets/images/icons/ic-eye-blue-slash.svg'
+              : 'assets/images/icons/ic-eye-blue.svg'
+          "
+          [label]="isFilterActive ? 'Hide Filter' : 'Show Filter'"
+          type="primary-not-active"
+          (click)="isFilterActive = !isFilterActive"
+        >
+        </app-button>
+      </div>
+    </div>
+    <ng-container *ngIf="isFilterActive">
+      <div class="border border-primary-border rounded-3xl bg-neutral-10 p-3">
+        <div class="flex gap-3 items-center">
+          <div
+            class="flex-grow flex flex-col gap-3 border-r border-r-primary-border pr-4"
+          >
+            <div class="grid grid-cols-4 gap-3">
+              <app-input-text
+                type="normal"
+                id="taReff"
+                placeholder="Fill this.."
+                label="TA Reff"
+              ></app-input-text>
+              <app-input-text
+                type="normal"
+                id="requestNumber"
+                placeholder="Fill this.."
+                label="No. of Request"
+              ></app-input-text>
+              <app-select-box
+                id="typeOfReallocation"
+                label="Type of Reallocation"
+                placeholder="Select One.."
+              ></app-select-box>
+              <app-input-date
+                id="entryDateFrom"
+                placeholder="Select One.."
+                label="Entry Date (From)"
+              ></app-input-date>
+            </div>
+            <hr class="w-full border-t border-t-primary-border" />
+            <div class="grid grid-cols-4 gap-3">
+              <app-input-date
+                id="entryDateTo"
+                placeholder="Select One.."
+                label="Entry Date (To)"
+              ></app-input-date>
+              <app-select-box
+                type="status"
+                id="status"
+                label="Status"
+              ></app-select-box>
+              <app-select-box
+                type="status"
+                id="statusTo"
+                label="Status To"
+              ></app-select-box>
+              <app-input-text
+                type="normal"
+                id="departmentTo"
+                label="Department To"
+                [isDisabled]="true"
+              ></app-input-text>
+            </div>
+          </div>
+          <app-button
+            label="Reset Filter"
+            icon="assets/images/icons/ic-eye-red.svg"
+            type="danger-not-active"
+          ></app-button>
+        </div>
+      </div>
+    </ng-container>
+
+    <app-table type="reallocationBudgetGeneralTable"></app-table>
+  </div>
+</app-layout>

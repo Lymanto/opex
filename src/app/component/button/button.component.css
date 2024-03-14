@@ -1,0 +1,30 @@
+.btn-primary {
+  @apply text-p-md justify-center font-medium text-neutral-10 bg-primary-hover border border-primary-hover rounded-xl p-2 flex flex-row gap-1 items-center;
+}
+.btn-danger-not-active {
+  @apply text-p-md justify-center font-medium text-tertiary-tx-red border border-tertiary-tx-red rounded-xl p-2 flex flex-row gap-1 items-center;
+}
+.btn-primary-not-active {
+  @apply text-p-md justify-center font-medium text-primary-hover border border-primary-hover rounded-xl p-2 flex flex-row gap-1 items-center;
+}
+.btn-danger {
+  @apply text-p-md justify-center font-medium  text-neutral-10 border bg-tertiary-tx-red rounded-xl p-2 flex flex-row gap-1 items-center;
+}
+.btn-secondary {
+  @apply text-p-md justify-center font-medium  text-neutral-10 border bg-neutral-60 rounded-xl p-2 flex flex-row gap-1 items-center;
+}
+.btn-success {
+  @apply text-p-md justify-center font-medium  text-neutral-10 border bg-tertiary-tx-green rounded-xl p-2 flex flex-row gap-1 items-center;
+}
+.btn-info {
+  @apply text-p-md justify-center font-medium  text-neutral-10 border bg-tertiary-tx-tosca rounded-xl p-2 flex flex-row gap-1 items-center;
+}
+.btn-action-danger {
+  @apply text-p-md justify-center tracking-[0.5px] border-solid border-2 border-tertiary-bg-red text-tertiary-tx-red text-center rounded-full w-[22px] h-[22px] flex  items-center;
+}
+.btn-action-success {
+  @apply text-p-md justify-center tracking-[0.5px] border-solid border-2 border-tertiary-bg-green text-tertiary-tx-green text-center rounded-full w-[22px] h-[22px] flex  items-center;
+}
+.btn-action-primary {
+  @apply text-p-md justify-center tracking-[0.5px] border-solid border-2 border-primary-border text-primary-hover text-center rounded-full w-[22px] h-[22px] flex  items-center;
+}

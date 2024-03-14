@@ -1,0 +1,98 @@
+<app-layout currentUrl="/need-approval">
+  <div
+    class="p-4 border border-primary-border rounded-3xl bg-neutral-10 flex flex-col gap-4"
+  >
+    <div class="flex justify-between items-center">
+      <app-button
+        icon="assets/images/icons/ic-arrow-left.svg"
+        type="primary-not-active"
+        label="Back"
+        [isHref]="true"
+        href="/need-approval"
+      />
+      <div class="flex flex-col items-center justify-center">
+        <p class="text-p-lg font-medium text-neutral-100">TD/1043/8/23</p>
+        <p class="text-p-sm leading-3 text-neutral-60">No. of Request</p>
+      </div>
+      <div></div>
+    </div>
+    <div class="flex items-center gap-2 border-b border-b-primary-border">
+      <div
+        class="px-1 py-2"
+        [ngClass]="{
+          'border-b-4 border-b-primary-hover': tabState === 'requestVerification',
+        }"
+      >
+        <p
+          class="cursor-pointer text-p-md font-medium text-neutral-60"
+          [ngClass]="{
+              'text-primary-hover': tabState === 'requestVerification',
+            }"
+          (click)="tabState = 'requestVerification'"
+        >
+          Request & Verification
+        </p>
+      </div>
+      <div
+        class="px-1 py-2"
+        [ngClass]="{
+          'border-b-4 border-b-primary-hover': tabState === 'reallocationBudget',
+        }"
+      >
+        <p
+          class="cursor-pointer text-neutral-60 text-p-md font-medium"
+          [ngClass]="{
+              'text-primary-hover': tabState === 'reallocationBudget',
+            }"
+          (click)="tabState = 'reallocationBudget'"
+        >
+          Reallocation Budget
+        </p>
+      </div>
+      <div
+        class="px-1 py-2"
+        [ngClass]="{
+          'border-b-4 border-b-primary-hover': tabState === 'remark',
+        }"
+      >
+        <p
+          class="cursor-pointer text-neutral-60 text-p-md font-medium"
+          [ngClass]="{
+              'text-primary-hover': tabState === 'remark',
+            }"
+          (click)="tabState = 'remark'"
+        >
+          Remark
+        </p>
+      </div>
+      <div
+        class="px-1 py-2"
+        [ngClass]="{
+          'border-b-4 border-b-primary-hover': tabState === 'trackingApproval',
+        }"
+      >
+        <p
+          class="cursor-pointer text-neutral-60 text-p-md font-medium"
+          [ngClass]="{
+              'text-primary-hover': tabState === 'trackingApproval',
+            }"
+          (click)="tabState = 'trackingApproval'"
+        >
+          Tracking Approval
+        </p>
+      </div>
+    </div>
+    <ng-container *ngIf="tabState === 'requestVerification' && data">
+      <app-request-verification [data]="data" />
+    </ng-container>
+    <ng-container *ngIf="tabState === 'reallocationBudget' && data">
+      <app-reallocaton-budget />
+    </ng-container>
+    <ng-container *ngIf="tabState === 'remark' && data">
+      <app-remark />
+    </ng-container>
+    <ng-container *ngIf="tabState === 'trackingApproval' && data">
+      <app-tracking-approval />
+    </ng-container>
+  </div>
+</app-layout>

@@ -1,0 +1,35 @@
+<ng-container *ngIf="!isHref">
+  <button
+    [ngClass]="{
+      'btn-danger-not-active': type == 'danger-not-active',
+      'btn-primary': type == 'primary',
+      'btn-primary-not-active': type == 'primary-not-active',
+      'btn-danger': type == 'danger',
+      'btn-secondary': type == 'secondary',
+      'btn-success': type == 'success',
+      'btn-info': type == 'info',
+      'btn-action-danger': type == 'action-danger',
+      'btn-action-success': type == 'action-success',
+      'btn-action-primary': type == 'action-primary',
+      'w-full': isFull
+    }"
+    type="button"
+    [disabled]="isDisabled"
+  >
+    <img [src]="icon" alt="icon" class="w-4 h-4" *ngIf="hasIcon" />
+    {{ label }}
+  </button>
+</ng-container>
+<ng-container *ngIf="isHref">
+  <a
+    [ngClass]="{
+      'btn-danger-not-active': type == 'danger-not-active',
+      'btn-primary': type == 'primary',
+      'btn-primary-not-active': type == 'primary-not-active'
+    }"
+    [routerLink]="href"
+  >
+    <img [src]="icon" alt="icon" class="w-4 h-4" *ngIf="hasIcon" />
+    {{ label }}
+  </a>
+</ng-container>

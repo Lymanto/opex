@@ -1,0 +1,75 @@
+<header class="flex flex-row justify-between w-full">
+  <div class="flex flex-col gap-0.5">
+    <h2 class="text-subheading font-medium">Dashboard</h2>
+    <div class="flex flex-row items-center">
+      <p class="text-p-sm text-neutral-60 font-medium">Dashboard</p>
+      <img
+        src="assets/images/icons/ic-arrow-right.svg"
+        alt="arrow right"
+        class="w-[16px] h-[16px]"
+      />
+    </div>
+  </div>
+  <div class="flex flex-row gap-3 items-center">
+    <input type="text" [formControl]="inputPersonalNumber" />
+    <button class="text-p-md text-neutral-100" (click)="changeUserInfo()">
+      Submit
+    </button>
+    <div
+      class="w-[48px] h-[48px] box-border p-3 bg-slate-50 border border-primary-border rounded-xl cursor-pointer"
+    >
+      <img src="assets/images/icons/ic-notification.svg" alt="" />
+    </div>
+    <div class="relative">
+      <div
+        class="p-2 bg-slate-50 border border-primary-border rounded-2xl flex flex-row gap-2 items-center cursor-pointer"
+        (click)="active = !active"
+      >
+        <div class="relative w-[34px] h-[34px] rounded-full overflow-hidden">
+          <img
+            [src]="userInfo.personalImage"
+            class="absolute object-cover"
+            alt="profile"
+          />
+        </div>
+        <div class="flex flex-col items-end">
+          <p class="text-p-md font-semibold text-neutral-100">
+            {{ userInfo.personalName }}
+          </p>
+          <p class="text-p-sm font-medium text-neutral-70 leading-3">
+            {{ userInfo.personalUnit }}
+          </p>
+        </div>
+        <img
+          src="assets/images/icons/ic-arrow-down.svg"
+          alt="arrow down"
+          class="w-[20px] h-[20px]"
+        />
+      </div>
+      <div
+        [ngClass]="{
+          hidden: !active,
+          'absolute': active,
+        }"
+        class="bg-neutral-10 p-3 flex flex-col gap-3 w-full rounded-xl border border-primary-border"
+      >
+        <div
+          class="text-p-md text-neutral-100 hover:text-primary-hover cursor-pointer"
+        >
+          OPEX
+        </div>
+        <div
+          class="text-p-md text-neutral-100 hover:text-primary-hover cursor-pointer"
+        >
+          CAPEX
+        </div>
+        <button
+          class="text-p-md text-neutral-100 hover:text-primary-hover cursor-pointer"
+          (click)="logout()"
+        >
+          Sign Out
+        </button>
+      </div>
+    </div>
+  </div>
+</header>

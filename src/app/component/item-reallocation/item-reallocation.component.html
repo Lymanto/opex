@@ -1,0 +1,152 @@
+<div class="flex flex-col gap-3">
+  <div
+    class="flex flex-row justify-between items-center pb-2 border-b border-b-primary-border"
+  >
+    <div>
+      <div
+        class="text-p-lg font-medium text-neutral-100 after:content-['*'] after:text-tertiary-tx-red"
+      >
+        Item
+      </div>
+      <p class="text-p-sm text-neutral-80">
+        As many items as you need can be added
+      </p>
+    </div>
+  </div>
+  <form class="flex flex-col gap-4">
+    <div
+      class="flex flex-col gap-4 p-4 box-border border border-primary-border rounded-3xl bg-primary-bg-2"
+    >
+      <div class="flex justify-between items-center">
+        <div class="flex flex-col justify-center items-center">
+          <p class="text-p-sm text-neutral-60 p-0 m-0 leading-3">Item</p>
+          <p class="text-p-lg font-semibold text-neutral-100">1</p>
+        </div>
+        <app-button
+          label="Hide Item"
+          type="primary"
+          icon="assets/images/icons/ic-eye-white-slash.svg"
+        />
+      </div>
+      <hr class="w-full h-px bg-primary-border border-0" />
+      <div class="w-full flex flex-col rounded-t-3xl overflow-hidden">
+        <div class="flex flex-col bg-neutral-10 p-4 gap-4">
+          <div class="w-full flex flex-row justify-between">
+            <div class="flex flex-col">
+              <p class="text-p-lg font-medium text-neutral-100">Group From</p>
+              <p class="text-p-sm text-neutral-80">Reallocation Provider</p>
+            </div>
+            <div>
+              <app-input-text
+                id="group"
+                type="normal"
+                [isReadOnly]="true"
+                value="Rental Expense"
+              ></app-input-text>
+            </div>
+          </div>
+          <div
+            class="grid grid-cols-3 gap-4 p-4 border border-primary-border rounded-3xl"
+          >
+            <app-select-box
+              id="groupDetail"
+              [required]="true"
+              label="Group Detail"
+            ></app-select-box>
+            <app-input-text
+              type="normal"
+              id="GLNumber"
+              label="G/L Number"
+              [isAsk]="true"
+              [isDisabled]="true"
+            />
+            <app-input-text
+              type="currency"
+              id="available"
+              label="Available"
+              [isDisabled]="true"
+            />
+          </div>
+        </div>
+        <div
+          class="flex flex-row justify-between items-center p-4 rounded-b-3xl bg-tertiary-bg-red"
+        >
+          <div>
+            <p class="text-p-lg font-medium text-tertiary-tx-red">
+              Amount Submission
+            </p>
+            <p class="text-p-sm text-neutral-80">
+              Put the amount you want in the box
+            </p>
+          </div>
+          <div>
+            <app-input-text type="amount-submission" />
+          </div>
+        </div>
+      </div>
+      <div class="w-full flex flex-col rounded-3xl overflow-hidden">
+        <div class="flex flex-col bg-neutral-10 p-4 gap-4">
+          <div class="w-full flex flex-row justify-between">
+            <div class="flex flex-col">
+              <p class="text-p-lg font-medium text-neutral-100">Group To</p>
+              <p class="text-p-sm text-neutral-80">Reallocation Recipient</p>
+            </div>
+            <div>
+              <app-input-text
+                id="group"
+                type="normal"
+                [isReadOnly]="true"
+                value="Rental Expense"
+              ></app-input-text>
+            </div>
+          </div>
+          <div
+            class="grid grid-cols-4 gap-4 p-4 border border-primary-border rounded-3xl"
+          >
+            <app-input-text
+              type="normal"
+              id="groupDetailTo"
+              label="Group Detail"
+              [isReadOnly]="true"
+              value="Building-Rental"
+            />
+
+            <app-input-text
+              type="normal"
+              id="GLNumber"
+              label="G/L Number"
+              [isAsk]="true"
+              [isReadOnly]="true"
+            />
+            <app-input-text
+              type="currency"
+              id="available"
+              label="Available"
+              [isReadOnly]="true"
+            />
+            <app-input-text
+              type="currency"
+              id="recipientTotal"
+              label="Recipient Total"
+              [isReadOnly]="true"
+            />
+          </div>
+        </div>
+      </div>
+      <app-input-text
+        type="normal"
+        id="budgetName"
+        label="Budget Name"
+        [isAsk]="true"
+        [required]="true"
+      />
+      <app-input-text
+        type="normal"
+        id="remark"
+        label="Remark"
+        [isAsk]="true"
+        [required]="true"
+      />
+    </div>
+  </form>
+</div>

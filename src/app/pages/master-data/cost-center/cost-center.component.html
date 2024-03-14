@@ -1,0 +1,298 @@
+<app-layout currentUrl="/master-data" currentUrlSubMenu="/cost-center">
+  <div
+    class="p-4 border border-primary-border rounded-3xl bg-neutral-10 flex flex-col gap-4"
+  >
+    <div class="flex flex-row justify-between items-center">
+      <h2 class="text-subheading font-medium text-neutral-100">List of Data</h2>
+      <div class="flex flex-row gap-3">
+        <app-button
+          label="Add New"
+          icon="assets/images/icons/ic-plus-circle-white.svg"
+          type="primary"
+          data-modal-target="costCenterAdd"
+          data-modal-toggle="costCenterAdd"
+        ></app-button>
+      </div>
+    </div>
+    <table class="w-full">
+      <tr
+        class="text-center border border-b-2 border-x-white border-t-white border-b-primary-hover text-p-md tracking-[0.5px] table-auto"
+      >
+        <th class="p-2">No.</th>
+        <th class="p-2">Cost Center</th>
+        <th class="p-2">Description</th>
+        <th class="p-2">Bidang</th>
+        <th class="p-2">Dinas</th>
+        <th class="p-2">Directorat</th>
+        <th class="p-2">Group Dinas</th>
+        <th class="p-2">Profit Center</th>
+        <th class="p-2">Action</th>
+      </tr>
+      <tbody *ngFor="let item of tableData; let i = index">
+        <tr
+          class="text-center border border-x-white border-t-white border-b-1 border-b-primary-border text-p-md tracking-[0.5px]"
+        >
+          <td class="p-4">{{ i + 1 }}</td>
+          <td>{{ item.costCenter }}</td>
+          <td>{{ item.description }}</td>
+          <td>{{ item.bidang }}</td>
+          <td>{{ item.dinas }}</td>
+          <td>{{ item.directorat }}</td>
+          <td>{{ item.groupDinas }}</td>
+          <td>{{ item.profitCenter }}</td>
+          <td>
+            <div class="flex justify-center">
+              <div class="flex mx-auto">
+                <app-button
+                  icon="assets/images/icons/ic-pencil-square-blue.svg"
+                  type="action-primary"
+                  (click)="costCenterEditOpen(item)"
+                ></app-button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="flex justify-between items-center">
+      <div class="flex gap-1">
+        <div class="text-p-md tracking-[0.5px] text-neutral-60">
+          Row per page
+        </div>
+        <div class="text-p-md tracking-[0.5px] text-neutral-100">
+          {{ meta.totalItemsPerPage }}
+        </div>
+      </div>
+      <div class="justify-end items-center mt-2">
+        <div class="flex gap-1">
+          <div class="text-p-md tracking-[0.5px] text-neutral-60">Page</div>
+
+          <div
+            class="text-p-md tracking-[0.5px] border-solid border-2 border-primary-border text-primary-hover text-center rounded-lg w-[22px] h-[22px] flex justify-center items-center"
+          >
+            {{ meta.currentPage }}
+          </div>
+          <div class="text-p-md tracking-[0.5px] text-neutral-60">
+            of {{ meta.lastpage }}
+          </div>
+          <app-pagination
+            [numberOfItems]="meta.totalItems"
+            [itemsPerPage]="meta.totalItemsPerPage"
+            [currentPage]="meta.currentPage"
+            (pageChange)="onPageChange($event)"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="costCenterAdd"
+      tabindex="-1"
+      class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
+    >
+      <div class="relative w-full max-w-md max-h-full">
+        <div
+          class="relative bg-neutral-10 border border-primary-border rounded-lg shadow dark:bg-gray-700"
+        >
+          <div class="text-center mt-6"><h6>Add New</h6></div>
+          <form [formGroup]="itemsForm">
+            <div class="mt-6 mx-6">
+              <app-input-text
+                type="normalControl"
+                formControlName="costCenterField"
+                placeholder=" Please Fill this"
+                label="Cost Center"
+                [required]="true"
+              >
+              </app-input-text>
+            </div>
+            <div class="mt-2 mx-6">
+              <app-input-text
+                type="normalControl"
+                formControlName="descriptionField"
+                placeholder=" Description"
+                label="Description"
+                [required]="true"
+              >
+              </app-input-text>
+            </div>
+            <div class="mt-2 mx-6">
+              <app-input-text
+                type="normalControl"
+                formControlName="bidangField"
+                placeholder="Bidang"
+                label="Bidang"
+                [required]="true"
+              >
+              </app-input-text>
+            </div>
+            <div class="mt-2 mx-6">
+              <app-input-text
+                type="normalControl"
+                formControlName="dinasField"
+                placeholder="Dinas"
+                label="Dinas"
+                [required]="true"
+              >
+              </app-input-text>
+            </div>
+            <div class="mt-2 mx-6">
+              <app-input-text
+                type="normalControl"
+                formControlName="directoratField"
+                placeholder="Directorat"
+                label="Directorat"
+                [required]="true"
+              >
+              </app-input-text>
+            </div>
+            <div class="mt-2 mx-6">
+              <app-input-text
+                type="normalControl"
+                formControlName="groupDinasField"
+                placeholder="Group Dinas"
+                label="Group Dinas"
+                [required]="true"
+              >
+              </app-input-text>
+            </div>
+            <div class="mt-2 mx-6">
+              <app-input-text
+                type="normalControl"
+                formControlName="profitCenterField"
+                placeholder="Profit Center"
+                label="Profit Center"
+                [required]="true"
+              >
+              </app-input-text>
+            </div>
+          </form>
+          <div class="px-6 pb-6 text-center mt-10">
+            <div class="grid grid-cols-2 items-center justify-center gap-3">
+              <app-button
+                type="primary-not-active"
+                label="Cancel"
+                [hasIcon]="false"
+                [isFull]="true"
+                data-modal-hide="costCenterAdd"
+              />
+
+              <app-button
+                [isFull]="true"
+                (click)="costCenterAddPost(userInfo.personalNumber)"
+                type="primary"
+                label="Save"
+                [hasIcon]="false"
+                data-modal-hide="costCenter"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      id="costCenterEdit"
+      tabindex="-1"
+      class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
+    >
+      <div class="relative w-full max-w-md max-h-full">
+        <div
+          class="relative bg-neutral-10 border border-primary-border rounded-lg shadow dark:bg-gray-700"
+        >
+          <div class="text-center mt-6"><h6>Edit Value</h6></div>
+          <form [formGroup]="itemsForm">
+            <div class="mt-6 mx-6">
+              <app-input-text
+                type="normalControl"
+                formControlName="costCenterField"
+                placeholder=" Please Fill this"
+                label="Cost Center"
+                [required]="true"
+              >
+              </app-input-text>
+            </div>
+            <div class="mt-2 mx-6">
+              <app-input-text
+                type="normalControl"
+                formControlName="descriptionField"
+                placeholder=" Description"
+                label="Description"
+                [required]="true"
+              >
+              </app-input-text>
+            </div>
+            <div class="mt-2 mx-6">
+              <app-input-text
+                type="normalControl"
+                formControlName="bidangField"
+                placeholder="Bidang"
+                label="Bidang"
+                [required]="true"
+              >
+              </app-input-text>
+            </div>
+            <div class="mt-2 mx-6">
+              <app-input-text
+                type="normalControl"
+                formControlName="dinasField"
+                placeholder="Dinas"
+                label="Dinas"
+                [required]="true"
+              >
+              </app-input-text>
+            </div>
+            <div class="mt-2 mx-6">
+              <app-input-text
+                type="normalControl"
+                formControlName="directoratField"
+                placeholder="Directorat"
+                label="Directorat"
+                [required]="true"
+              >
+              </app-input-text>
+            </div>
+            <div class="mt-2 mx-6">
+              <app-input-text
+                type="normalControl"
+                formControlName="groupDinasField"
+                placeholder="Group Dinas"
+                label="Group Dinas"
+                [required]="true"
+              >
+              </app-input-text>
+            </div>
+            <div class="mt-2 mx-6">
+              <app-input-text
+                type="normalControl"
+                formControlName="profitCenterField"
+                placeholder="Profit Center"
+                label="Profit Center"
+                [required]="true"
+              >
+              </app-input-text>
+            </div>
+          </form>
+          <div class="px-6 pb-6 text-center mt-10">
+            <div class="grid grid-cols-2 items-center justify-center gap-3">
+              <app-button
+                type="primary-not-active"
+                label="Cancel"
+                [hasIcon]="false"
+                [isFull]="true"
+                (click)="costCenterEditClose()"
+              />
+
+              <app-button
+                [isFull]="true"
+                type="primary"
+                label="Update"
+                [hasIcon]="false"
+                (click)="costCenterEditPut(userInfo.personalNumber)"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-layout>

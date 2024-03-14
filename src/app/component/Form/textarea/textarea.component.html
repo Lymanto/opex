@@ -1,0 +1,30 @@
+<div class="flex flex-col gap-1">
+  <div class="flex items-center gap-0.5">
+    <label for="{{ id }}">{{ label }}</label>
+    <span class="text-tertiary-tx-red text-p-md" *ngIf="required">*</span>
+    <img src="assets/images/icons/ic-ask.svg" class="w-4 h-4" *ngIf="isAsk" />
+  </div>
+  <ng-container *ngIf="type === 'normal'">
+    <textarea
+      name="{{ id }}"
+      id="{{ id }}"
+      class="border border-neutral-40 p-3 rounded-2xl text-p-md placeholder:text-neutral-80 appearance-none w-full text-neutral-100 read-only:bg-neutral-20 disabled:bg-neutral-20"
+      placeholder="{{ placeholder }}"
+      required="{{ required }}"
+      [readonly]="isReadOnly"
+      [disabled]="isDisabled"
+      (change)="setVal($event)"
+      [value]="content"
+      >{{ content }}</textarea
+    >
+  </ng-container>
+  <ng-container *ngIf="type === 'rich'">
+    <ckeditor
+      (change)="setValEditor($event)"
+      [(ngModel)]="editorData"
+      [config]="editorConfig"
+      [editor]="Editor"
+      [disabled]="isReadOnly"
+    ></ckeditor>
+  </ng-container>
+</div>

@@ -1,0 +1,12 @@
+<main class="flex flex-row w-full">
+  <div>
+    <app-sidebar
+      [activeSubMenu]="currentUrlSubMenu"
+      [active]="currentUrl"
+    ></app-sidebar>
+  </div>
+  <div class="flex-1 py-6 pr-6 box-border flex overflow-hidden flex-col gap-4">
+    <app-topnav></app-topnav>
+    <ng-content></ng-content>
+  </div>
+</main>

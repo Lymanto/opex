@@ -1,0 +1,116 @@
+<section id="reallocationBudget" class="flex flex-col gap-4">
+  <div class="grid grid-cols-2 gap-4">
+    <app-input-text
+      type="normal"
+      [isReadOnly]="true"
+      id="entryDate"
+      label="Entry Date"
+      value="30 Maret 2023"
+    />
+
+    <app-input-text
+      type="normal"
+      [isReadOnly]="true"
+      id="taReff"
+      label="TA Reff"
+      value="TAB/RA.TD/08.029/2023"
+    />
+  </div>
+
+  <div class="grid grid-cols-3 gap-4">
+    <app-input-text
+      type="normal"
+      [isReadOnly]="true"
+      id="status"
+      label="Status"
+      value="Progress"
+    />
+    <app-input-text
+      type="normal"
+      [isReadOnly]="true"
+      id="statusTo"
+      label="Status To"
+      value="RIFKY SEFTI NUGROHO"
+    />
+    <app-input-text
+      type="normal"
+      [isReadOnly]="true"
+      id="departmentTo"
+      label="Department To"
+      value="JKTTAB"
+    />
+  </div>
+  <div class="grid grid-cols-2 gap-4">
+    <app-input-text
+      type="normal"
+      [isReadOnly]="true"
+      id="typeOfReallocation"
+      label="Type of Reallocation"
+      value="Internal Dinas"
+    />
+    <app-input-text
+      type="normal"
+      [isReadOnly]="true"
+      id="ownerBudget"
+      label="Owner of the Budget"
+      value="TD"
+    />
+  </div>
+  <app-textarea
+    id="titleOfRequest"
+    label="Title of Request"
+    [required]="true"
+    type="normal"
+    [isReadOnly]="true"
+    content="Permohonan persetujuan realisasi anggaran perpanjagan lisensi Webex meeting, Cloud device registration, add on storage, lisensi server, lisensi VMware"
+    [isAsk]="true"
+  />
+
+  <app-item-reallocation />
+  <div class="flex gap-2 mt-5 w-full items-center justify-center">
+    <app-button
+      icon="assets/images/icons/ic-save.svg"
+      type="primary"
+      label="Save"
+    />
+    <app-button
+      icon="assets/images/icons/ic-check-circle.svg"
+      type="success"
+      label="Submit"
+    />
+    <app-button
+      icon="assets/images/icons/ic-pencil-square.svg"
+      type="info"
+      label="Revise"
+      data-modal-target="needApprovalRevise"
+      data-modal-toggle="needApprovalRevise"
+    />
+    <app-button
+      icon="assets/images/icons/ic-pencil-square.svg"
+      type="danger"
+      label="Reject"
+      data-modal-target="needApprovalReject"
+      data-modal-toggle="needApprovalReject"
+    />
+    <app-button
+      icon="assets/images/icons/ic-check-circle.svg"
+      type="success"
+      label="Approve"
+      data-modal-target="needApprovalApprove"
+      data-modal-toggle="needApprovalApprove"
+    />
+    <app-button
+      icon="assets/images/icons/ic-pencil-square.svg"
+      type="secondary"
+      label="Edit Realokasi"
+    />
+    <app-button
+      icon="assets/images/icons/ic-pencil-square.svg"
+      type="info"
+      label="Edit Realokasi"
+    />
+  </div>
+  <app-modal type="needApprovalRevise" />
+  <app-modal type="needApprovalReject" />
+  <app-modal type="needApprovalApprove" />
+</section>

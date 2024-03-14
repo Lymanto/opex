@@ -1,0 +1,294 @@
+<ng-container *ngIf="type === 'uploadFile'">
+  <div
+    id="uploadFile"
+    tabindex="-1"
+    class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
+  >
+    <ng-content></ng-content>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="type === 'overlimitBudget'">
+  <div
+    id="overlimitBudget"
+    tabindex="-1"
+    class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
+  >
+    <div class="relative w-full max-w-md max-h-full">
+      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <button
+          type="button"
+          class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+          data-modal-hide="overlimitBudget"
+        ></button>
+        <div class="p-6 text-center">
+          <img
+            src="assets/images/danger.png"
+            class="max-w-[302px] w-full mx-auto"
+          />
+          <h3 class="text-subheading mt-2 font-medium text-neutral-100">
+            Your request overlimit budget
+          </h3>
+          <p class="text-p-md text-neutral-60 mb-2">
+            This message will be showup if your request budget overlimit, please
+            consider to make reallocation budget firstly. Please choose one of
+            the following
+          </p>
+          <app-select-box />
+          <div class="mt-10 w-full flex flex-col gap-3">
+            <app-button
+              [isHref]="true"
+              href="/dashboard/create-reallocation-budget"
+              label="Okay"
+              [hasIcon]="false"
+              type="primary"
+              [isFull]="true"
+              data-modal-hide="overlimitBudget"
+            >
+            </app-button>
+            <app-button
+              data-modal-hide="overlimitBudget"
+              label="Cancel"
+              [hasIcon]="false"
+              type="primary-not-active"
+              [isFull]="true"
+            >
+            </app-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="type === 'needApprovalRevise'">
+  <div
+    id="needApprovalRevise"
+    tabindex="-1"
+    class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
+  >
+    <div class="relative w-full max-w-md max-h-full">
+      <div
+        class="relative bg-neutral-10 border border-primary-border rounded-lg shadow dark:bg-gray-700"
+      >
+        <div class="text-center mt-6">
+          <h6>Revise</h6>
+        </div>
+        <div class="mt-6 mx-6">
+          <div
+            class="flex flex-row justify-between items-center p-4 border-2 mb-4 border-neutral-50 rounded-2xl"
+          >
+            <div>
+              <div class="text-p-lg font-medium text-primary-main">User</div>
+              <p class="text-p-sm text-neutral-80">
+                Select this if only User area to revise
+              </p>
+            </div>
+            <app-button
+              [hasIcon]="false"
+              type="primary-not-active"
+              label="Select"
+              id="select"
+              icon=""
+            ></app-button>
+          </div>
+          <div
+            class="flex flex-row justify-between items-center p-4 border-2 mb-4 border-neutral-50 rounded-2xl"
+          >
+            <div>
+              <div class="text-p-lg font-medium text-primary-main">User</div>
+              <p class="text-p-sm text-neutral-80">
+                Select this if only User area to revise
+              </p>
+            </div>
+            <app-button
+              [hasIcon]="false"
+              type="primary-not-active"
+              label="Select"
+              id="select"
+              icon=""
+            ></app-button>
+          </div>
+          <div
+            class="flex flex-row justify-between items-center p-4 mb-3 border-2 border-neutral-50 rounded-2xl"
+          >
+            <div>
+              <div class="text-p-lg font-medium text-primary-main">User</div>
+              <p class="text-p-sm text-neutral-80">
+                Select this if only User area to revise
+              </p>
+            </div>
+            <app-button
+              [hasIcon]="false"
+              type="primary-not-active"
+              label="Select"
+              id="select"
+              icon=""
+            ></app-button>
+          </div>
+          <app-textarea
+            type="normal"
+            id="remark"
+            label="Remark"
+            [required]="true"
+            placeholder="Please Fill this"
+          ></app-textarea>
+        </div>
+        <div class="px-6 pb-6 text-center mt-10">
+          <div class="grid grid-cols-2 items-center justify-center gap-3">
+            <app-button
+              type="primary-not-active"
+              label="Cancel"
+              [hasIcon]="false"
+              [isFull]="true"
+              data-modal-hide="needApprovalRevise"
+            />
+
+            <app-button
+              [isFull]="true"
+              type="primary"
+              label="Confirm"
+              [hasIcon]="false"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="type === 'needApprovalNeedHps'">
+  <div
+    id="needApprovalNeedHps"
+    tabindex="-1"
+    class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
+  >
+    <div class="relative w-full max-w-md max-h-full">
+      <div
+        class="relative bg-neutral-10 border border-primary-border rounded-lg shadow dark:bg-gray-700"
+      >
+        <div class="text-center mt-6">
+          <h6>Need HPS</h6>
+        </div>
+
+        <div class="mt-6 mx-6">
+          <app-textarea
+            type="normal"
+            id="remark"
+            label="Remark"
+            [required]="true"
+            placeholder="Please Fill this"
+          ></app-textarea>
+        </div>
+        <div class="px-6 pb-6 text-center mt-10">
+          <div class="grid grid-cols-2 items-center justify-center gap-3">
+            <app-button
+              type="primary-not-active"
+              label="Cancel"
+              [hasIcon]="false"
+              [isFull]="true"
+              data-modal-hide="needApprovalNeedHps"
+            />
+
+            <app-button
+              [isFull]="true"
+              type="primary"
+              label="Confirm"
+              [hasIcon]="false"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="type === 'needApprovalReject'">
+  <div
+    id="needApprovalReject"
+    tabindex="-1"
+    class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
+  >
+    <div class="relative w-full max-w-md max-h-full">
+      <div
+        class="relative bg-neutral-10 border border-primary-border rounded-lg shadow dark:bg-gray-700"
+      >
+        <div class="text-center mt-6">
+          <h6>Reject</h6>
+        </div>
+        <form [formGroup]="remarkForm">
+          <div class="mt-6 mx-6">
+            <app-textarea
+              type="normal"
+              id="remark"
+              label="Remark"
+              [required]="true"
+              formControlName="remark"
+              placeholder="Please Fill this"
+            ></app-textarea>
+          </div>
+          <div class="px-6 pb-6 text-center mt-10">
+            <div class="grid grid-cols-2 items-center justify-center gap-3">
+              <app-button
+                type="primary-not-active"
+                label="Cancel"
+                [hasIcon]="false"
+                [isFull]="true"
+                data-modal-hide="needApprovalReject"
+              />
+
+              <app-button
+                [isFull]="true"
+                type="primary"
+                label="Confirm"
+                [hasIcon]="false"
+                (click)="rejectDataStatusId()"
+              />
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<!-- <ng-container *ngIf="type === 'needApprovalApprove'">
+  <div id="needApprovalApprove" tabindex="-1"
+    class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative w-full max-w-md max-h-full">
+      <div class="relative bg-neutral-10 border border-primary-border rounded-lg shadow dark:bg-gray-700">
+        <div class="text-center mt-6">
+          <h6>Input Password</h6>
+        </div>
+        <form [formGroup]="passwordForm">
+          <div class="mt-6 mx-6">
+            <app-input-text type="password" id="password" label="Password" formControlName="password" [required]="true"
+              placeholder="Please Fill this"></app-input-text>
+          </div>
+          <div class="px-6 pb-6 text-center mt-10">
+            <div class="text-center" *ngIf="isLoading">
+              <div role="status">
+                <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                  viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                    fill="currentColor" />
+                  <path
+                    d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                    fill="currentFill" />
+                </svg>
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 items-center justify-center gap-3 " *ngIf="!isLoading">
+              <app-button type="primary-not-active" label="Cancel" [hasIcon]="false" [isFull]="true"
+                data-modal-hide="needApprovalApprove" />
+
+              <app-button [isFull]="true" type="primary" label="Confirm" [hasIcon]="false" (click)="approvedUpdate()" />
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-container> -->

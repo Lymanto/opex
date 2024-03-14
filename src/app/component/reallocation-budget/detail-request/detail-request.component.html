@@ -1,0 +1,370 @@
+<section id="detailRequest" class="flex flex-col gap-4">
+  <div class="grid grid-cols-3 gap-4">
+    <app-input-text
+      type="normal"
+      [isReadOnly]="true"
+      id="entryDate"
+      label="Entry Date"
+      value="30 Maret 2023"
+    />
+    <app-input-text
+      type="normal"
+      [isReadOnly]="true"
+      id="years"
+      label="Years"
+      value="2023"
+    />
+    <app-input-text
+      type="normal"
+      [isReadOnly]="true"
+      id="dinas"
+      label="Dinas"
+      value="TD"
+    />
+  </div>
+  <div class="grid grid-cols-3 gap-4">
+    <app-input-text
+      type="normal"
+      [isReadOnly]="true"
+      id="status"
+      label="Status"
+      value="Open"
+    />
+    <app-input-text
+      type="normal"
+      [isReadOnly]="true"
+      id="statusTo"
+      label="Status To"
+      value="Rifky Sefti"
+    />
+    <app-input-text
+      type="normal"
+      [isReadOnly]="true"
+      id="departmentTo"
+      label="Department To"
+      value="JKTTAB"
+    />
+  </div>
+  <app-textarea
+    id="titleOfRequest"
+    label="Title of Request"
+    type="normal"
+    [isAsk]="true"
+  ></app-textarea>
+  <app-textarea
+    id="noteOfRequest"
+    label="Note of Request"
+    type="rich"
+    [isAsk]="true"
+  ></app-textarea>
+  <div class="flex flex-col gap-3">
+    <div
+      class="flex flex-row justify-between items-center pb-2 border-b border-b-primary-border"
+    >
+      <div>
+        <div
+          class="text-p-lg font-medium text-neutral-100 after:content-['*'] after:text-tertiary-tx-red"
+        >
+          Item
+        </div>
+        <p class="text-p-sm text-neutral-80">
+          As many items as you need can be added
+        </p>
+      </div>
+    </div>
+    <form class="flex flex-col gap-4">
+      <div
+        class="flex flex-col gap-4 p-4 box-border border border-primary-border rounded-3xl bg-primary-bg-2"
+      >
+        <div class="flex justify-between items-center">
+          <div class="flex flex-col justify-center items-center">
+            <p class="text-p-sm text-neutral-60 p-0 m-0 leading-3">Item</p>
+            <p class="text-p-lg font-semibold text-neutral-100">1</p>
+          </div>
+          <div class="border-l border-l-primary-border p-3">
+            <app-button
+              label="Hide Item"
+              type="primary"
+              icon="assets/images/icons/ic-eye-white-slash.svg"
+            />
+          </div>
+        </div>
+        <hr class="w-full h-px bg-primary-border border-0" />
+        <div class="w-full flex flex-col rounded-3xl overflow-hidden">
+          <div class="flex flex-col bg-neutral-10 p-4 gap-4">
+            <div class="w-full flex flex-row justify-center">
+              <div class="items-center">
+                <p class="text-p-lg font-medium text-neutral-100">Group From</p>
+                <p class="text-p-sm text-neutral-80">Group of Provider</p>
+              </div>
+            </div>
+            <div
+              class="border border-primary-border p-4 gap-4 rounded-3xl bg-neutral-10"
+            >
+              <div class="flex flex-row justify-between items-center">
+                <div class="flex flex-col">
+                  <app-input-text
+                    id="group"
+                    type="normal"
+                    label="Group"
+                    [isReadOnly]="true"
+                    value="Staff Expense"
+                  ></app-input-text>
+                </div>
+                <app-button
+                  icon="assets/images/icons/ic-arrow-up-active.svg"
+                  type="primary"
+                >
+                </app-button>
+              </div>
+              <hr class="w-full h-px bg-primary-border border-0 mt-4" />
+              <div
+                class="border border-primary-border mt-4 p-4 gap-4 rounded-3xl bg-neutral-10"
+              >
+                <div class="grid grid-cols-4 gap-4">
+                  <app-input-text
+                    type="normal"
+                    id="groupDetail"
+                    label="Group Detail"
+                    [isReadOnly]="true"
+                    value="Building-Rental"
+                  ></app-input-text>
+                  <app-input-text
+                    type="normal"
+                    id="GLNumber"
+                    label="G/L Number"
+                    [isAsk]="true"
+                    [isReadOnly]="true"
+                    value="40041002"
+                  ></app-input-text>
+                  <app-input-text
+                    type="normal"
+                    id="available"
+                    label="Available"
+                    [isReadOnly]="true"
+                    value="62927,18"
+                  >
+                  </app-input-text>
+                  <app-input-text
+                    type="amount-submission"
+                    id="ammountSubmission"
+                    label="Ammount Submission"
+                    [isReadOnly]="true"
+                    value="- 11.000.000"
+                    >></app-input-text
+                  >
+                </div>
+              </div>
+              <div
+                class="border border-primary-border mt-4 p-4 gap-4 rounded-3xl bg-neutral-10"
+              >
+                <div class="grid grid-cols-4 gap-4">
+                  <app-input-text
+                    type="normal"
+                    id="groupDetail"
+                    label="Group Detail"
+                    [isReadOnly]="true"
+                    value="Building-Rental"
+                  ></app-input-text>
+                  <app-input-text
+                    type="normal"
+                    id="GLNumber"
+                    label="G/L Number"
+                    [isAsk]="true"
+                    [isReadOnly]="true"
+                    value="40041002"
+                  ></app-input-text>
+                  <app-input-text
+                    type="normal"
+                    id="available"
+                    label="Available"
+                    [isReadOnly]="true"
+                    value="62927,18"
+                  >
+                  </app-input-text>
+                  <app-input-text
+                    type="amount-submission"
+                    id="ammountSubmission"
+                    label="Ammount Submission"
+                    [isReadOnly]="true"
+                    value="0"
+                    >></app-input-text
+                  >
+                </div>
+              </div>
+              <div
+                class="border border-primary-border mt-4 p-4 gap-4 rounded-3xl bg-neutral-10"
+              >
+                <div class="grid grid-cols-4 gap-4">
+                  <app-input-text
+                    type="normal"
+                    id="groupDetail"
+                    label="Group Detail"
+                    [isReadOnly]="true"
+                    value="Building-Rental"
+                  ></app-input-text>
+                  <app-input-text
+                    type="normal"
+                    id="GLNumber"
+                    label="G/L Number"
+                    [isAsk]="true"
+                    [isReadOnly]="true"
+                    value="40041002"
+                  ></app-input-text>
+                  <app-input-text
+                    type="normal"
+                    id="available"
+                    label="Available"
+                    [isReadOnly]="true"
+                    value="62927,18"
+                  >
+                  </app-input-text>
+                  <app-input-text
+                    type="amount-submission"
+                    id="ammountSubmission"
+                    label="Ammount Submission"
+                    [isReadOnly]="true"
+                    value="0"
+                    >></app-input-text
+                  >
+                </div>
+              </div>
+            </div>
+            <div
+              class="border border-primary-border p-4 gap-4 rounded-3xl bg-neutral-10"
+            >
+              <div class="flex flex-row justify-between items-center">
+                <div class="flex flex-col">
+                  <app-input-text
+                    id="group"
+                    type="normal"
+                    label="Group"
+                    [isReadOnly]="true"
+                    value="Staff Expense"
+                  ></app-input-text>
+                </div>
+                <app-button
+                  icon="assets/images/icons/ic-arrow-down.svg"
+                  type="primary-not-active"
+                >
+                </app-button>
+              </div>
+            </div>
+            <div
+              class="bg-tertiary-bg-red flex-1 mt-4 rounded-b-3xl p-4 max-w-full"
+            >
+              <div class="flex justify-between items-center">
+                <p class="text-p-lg text-neutral-80">Staff Expense</p>
+                <p class="text-p-lg text-tertiary-tx-red">758.52 USD</p>
+              </div>
+              <div class="flex justify-between items-center pt-2 pb-4">
+                <p class="text-p-lg text-neutral-80">Rental Expense</p>
+                <p class="text-p-lg text-tertiary-tx-red">0 USD</p>
+              </div>
+              <hr class="w-full h-px bg-tertiary-br-red" />
+              <div class="flex flex-row justify-between items-center pb-2 pt-4">
+                <div>
+                  <div class="text-p-lg font-medium text-tertiary-tx-red">
+                    Amount Submission Total
+                  </div>
+                  <p class="text-p-sm text-neutral-80">
+                    The total of the previously entered amounts
+                  </p>
+                </div>
+                <app-input-text
+                  type="currency"
+                  id="amountSubmissionTotal"
+                  [isReadOnly]="true"
+                >
+                </app-input-text>
+              </div>
+            </div>
+            <div
+              class="flex flex-col rounded-3xl overflow-hidden border border-primary-border m-4"
+            >
+              <div class="flex flex-col bg-neutral-10 p-4 gap-4">
+                <div class="flex flex-row justify-between">
+                  <div class="flex flex-col">
+                    <p class="text-p-lg font-medium text-neutral-100">
+                      Group To
+                    </p>
+                    <p class="text-p-sm text-neutral-80">
+                      Reallocation Recipient
+                    </p>
+                  </div>
+                  <div>
+                    <app-input-text
+                      id="group"
+                      type="normal"
+                      [isReadOnly]="true"
+                      value="Rental Expense"
+                    ></app-input-text>
+                  </div>
+                </div>
+                <hr class="w-full h-px bg-primary-border border-0" />
+              </div>
+              <div class="grid grid-cols-4 gap-4 p-4">
+                <app-input-text
+                  type="normal"
+                  id="groupDetail"
+                  label="Group Detail"
+                  [isReadOnly]="true"
+                  value="Building-Rental"
+                />
+
+                <app-input-text
+                  type="normal"
+                  id="GLNumber"
+                  label="G/L Number"
+                  [isAsk]="true"
+                  [isReadOnly]="true"
+                  value="40041002"
+                />
+                <app-input-text
+                  type="currency"
+                  id="available"
+                  label="Available"
+                  [isReadOnly]="true"
+                  value="62927,18"
+                />
+                <app-input-text
+                  type="currency"
+                  id="recipientTotal"
+                  label="Recipient Total"
+                  [isReadOnly]="true"
+                />
+              </div>
+            </div>
+            <div
+              class="flex flex-row justify-between items-center pb-2 border-b border-b-primary-border"
+            >
+              <div>
+                <div class="text-p-lg font-medium text-neutral-100">
+                  Dokument Pendukung
+                  <span class="text-tertiary-tx-red text-p-md">*</span>
+                </div>
+                <p class="text-p-sm text-neutral-80">
+                  Lampirkan dokumen pendukung, seperti FS/CBA/RA atau yang
+                  lainnya
+                </p>
+              </div>
+            </div>
+            <app-table type="createNewRequestTable"></app-table>
+            <div class="flex gap-2 mt-5 w-full items-center justify-center">
+              <app-button
+                icon="assets/images/icons/ic-save.svg"
+                type="primary"
+                label="Save"
+              />
+              <app-button
+                icon="assets/images/icons/ic-check-circle.svg"
+                type="success"
+                label="Submit"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>

@@ -1,0 +1,54 @@
+<section id="remark" class="flex flex-col gap-4">
+  <div class="flex flex-row justify-between items-center">
+    <h2 class="text-subheading font-medium text-neutral-100">List of Data</h2>
+    <div class="flex flex-row gap-3">
+      <app-button
+        [icon]="
+          isFilterActive
+            ? 'assets/images/icons/ic-eye-white-slash.svg'
+            : 'assets/images/icons/ic-eye.svg'
+        "
+        [label]="isFilterActive ? 'Hide Filter' : 'Show Filter'"
+        type="primary"
+        (click)="isFilterActive = !isFilterActive"
+      >
+      </app-button>
+    </div>
+  </div>
+  <ng-container *ngIf="isFilterActive">
+    <div class="border border-primary-border rounded-3xl bg-neutral-10 p-3">
+      <div class="flex gap-3 items-center">
+        <div
+          class="flex-grow flex flex-col gap-3 border-r border-r-primary-border pr-4"
+        >
+          <div class="grid grid-cols-4 gap-3">
+            <app-input-date
+              id="dateOfRemarkFrom"
+              label="Date of Remark (From)"
+            ></app-input-date>
+            <app-input-date
+              id="dateOfRemarkTo"
+              label="Date of Remark (To)"
+            ></app-input-date>
+            <app-select-box
+              id="status"
+              placeholder="Please Select one..."
+              label="Status"
+            ></app-select-box>
+            <app-select-box
+              id="statusTo"
+              placeholder="Please Select one..."
+              label="Status To"
+            ></app-select-box>
+          </div>
+        </div>
+        <app-button
+          label="Reset Filter"
+          icon="assets/images/icons/ic-eye-red.svg"
+          type="danger-not-active"
+        ></app-button>
+      </div>
+    </div>
+  </ng-container>
+  <app-table type="remarkTable"></app-table>
+</section>

@@ -1,0 +1,266 @@
+<app-layout currentUrl="/reallocation-budget">
+  <div
+    class="p-4 border border-primary-border rounded-3xl bg-neutral-10 flex flex-col gap-4"
+  >
+    <div class="flex justify-between items-center">
+      <app-button
+        icon="assets/images/icons/ic-arrow-left.svg"
+        type="primary-not-active"
+        label="Back"
+        [isHref]="true"
+        href="/dashboard"
+      />
+      <p class="text-p-lg font-medium">Create Request Realization</p>
+      <app-button
+        icon="assets/images/icons/ic-reset.svg"
+        type="danger-not-active"
+        label="Reset"
+      />
+    </div>
+    <div class="flex flex-col gap-4">
+      <div class="grid grid-cols-2 gap-4">
+        <app-input-text
+          type="normal"
+          label="Entry Date"
+          id="entryDate"
+          [isReadOnly]="true"
+          [value]="currentDate"
+        ></app-input-text>
+        <app-input-text
+          type="normal"
+          label="Dinas To"
+          id="dinasTo"
+          [required]="true"
+        ></app-input-text>
+      </div>
+    </div>
+    <app-textarea
+      id="titleOfRequest"
+      label="Title of Request"
+      [required]="true"
+      type="normal"
+      [isAsk]="true"
+    ></app-textarea>
+    <app-textarea
+      id="noteOfRequest"
+      label="Note of Request"
+      [required]="true"
+      type="rich"
+      [isAsk]="true"
+    ></app-textarea>
+    <div class="border border-tertiary-bg-red bg-neutral-10 rounded-3xl gap-4">
+      <div class="text-center items-center border-b border-b-tertiary-br-red">
+        <div class="py-4">
+          <div class="text-p-lg font-medium text-neutral-100">Group From</div>
+          <p class="text-p-sm text-neutral-80">
+            Group of Provider from Corporate Budget
+          </p>
+        </div>
+      </div>
+      <div class="flex flex-col gap-3 px-4 pt-4">
+        <div class="flex flex-row justify-between items-center pb-2">
+          <div>
+            <div
+              class="text-p-lg font-medium text-neutral-100 after:content-['*'] after:text-tertiary-tx-red"
+            >
+              Item
+            </div>
+            <p class="text-p-sm text-neutral-80">
+              As many items as you need can be added
+            </p>
+          </div>
+          <app-button
+            label="Add"
+            icon="assets/images/icons/ic-plus-circle-blue.svg"
+            type="primary-not-active"
+            (click)="addItems()"
+          >
+          </app-button>
+        </div>
+        <div
+          class="flex flex-col gap-4 p-4 box-border border border-primary-border rounded-3xl bg-primary-bg-2"
+        >
+          <form
+            class="flex flex-col gap-4"
+            [formGroup]="itemsForm"
+            *ngFor="let item of getItems.controls; let i = index"
+          >
+            <div class="flex justify-between items-center">
+              <div class="flex flex-col justify-center items-center">
+                <p class="text-p-sm text-neutral-60 p-0 m-0 leading-3">Item</p>
+                <p class="text-p-lg font-semibold text-neutral-100">
+                  {{ i + 1 }}
+                </p>
+              </div>
+              <div class="border-l border-l-primary-border p-3">
+                <app-button
+                  label="Hide Item"
+                  type="primary"
+                  icon="assets/images/icons/ic-eye-white-slash.svg"
+                />
+              </div>
+            </div>
+            <hr class="w-full h-px bg-primary-border border-0" />
+            <div
+              class="border border-primary-border rounded-3xl bg-neutral-10 mt-4"
+            >
+              <div class="grid grid-cols-3 p-4 gap-4">
+                <app-input-text
+                  type="normal"
+                  label="Budget"
+                  id="Budget"
+                  [isReadOnly]="true"
+                  value="Corporate"
+                ></app-input-text>
+                <app-select-box
+                  id="group"
+                  label="Group"
+                  [required]="true"
+                  [data]="selectGroupData"
+                ></app-select-box>
+                <app-select-box
+                  id="groupDetail"
+                  label="Group Detail"
+                  [required]="true"
+                  [data]="selectGroupDetail"
+                ></app-select-box>
+              </div>
+              <div class="grid grid-cols-3 p-4 gap-4">
+                <app-input-text
+                  type="normal"
+                  id="GLNumber"
+                  label="G/L Number"
+                  [isAsk]="true"
+                  [isDisabled]="true"
+                />
+                <app-input-text
+                  type="normal"
+                  id="available"
+                  label="Available"
+                  [isDisabled]="true"
+                ></app-input-text>
+                <app-input-text
+                  type="amount-submission"
+                  id="amountSubmission"
+                  label="Amount Submission"
+                  [required]="true"
+                  [isAsk]="true"
+                />
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="bg-tertiary-bg-red flex-1 mt-4 rounded-b-3xl p-4">
+        <div class="flex justify-between items-center">
+          <p class="text-p-lg text-neutral-80">Staff Expense</p>
+          <p class="text-p-lg text-tertiary-tx-red">758.52 USD</p>
+        </div>
+        <div class="flex justify-between items-center pt-2 pb-4">
+          <p class="text-p-lg text-neutral-80">Rental Expense</p>
+          <p class="text-p-lg text-tertiary-tx-red">0 USD</p>
+        </div>
+        <hr class="w-full h-px bg-tertiary-br-red" />
+        <div class="flex flex-row justify-between items-center pb-2 pt-4">
+          <div>
+            <div class="text-p-lg font-medium text-tertiary-tx-red">
+              Amount Submission Total
+            </div>
+            <p class="text-p-sm text-neutral-80">
+              The total of the previously entered amounts
+            </p>
+          </div>
+          <app-input-text
+            type="currency"
+            id="amountSubmissionTotal"
+            [isReadOnly]="true"
+          >
+          </app-input-text>
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex flex-col rounded-3xl overflow-hidden border border-primary-border m-4"
+    >
+      <div class="flex flex-col bg-neutral-10 p-4 gap-4">
+        <div class="flex flex-row justify-between">
+          <div class="flex flex-col">
+            <p class="text-p-lg font-medium text-neutral-100">Group To</p>
+            <p class="text-p-sm text-neutral-80">Reallocation Recipient</p>
+          </div>
+          <div>
+            <app-select-box
+              id="group"
+              type="normal"
+              [data]="selectGroupData"
+            ></app-select-box>
+          </div>
+        </div>
+        <hr class="w-full h-px bg-primary-border border-0" />
+      </div>
+      <div class="grid grid-cols-4 gap-4 p-4">
+        <app-select-box
+          type="normal"
+          id="groupDetail"
+          label="Group Detail"
+          [required]="true"
+          [data]="selectGroupDetail"
+        />
+
+        <app-input-text
+          type="normal"
+          id="GLNumber"
+          label="G/L Number"
+          [isAsk]="true"
+          [isReadOnly]="true"
+        />
+        <app-input-text
+          type="currency"
+          id="available"
+          label="Available"
+          [isReadOnly]="true"
+        />
+        <app-input-text
+          type="currency"
+          id="recipientTotal"
+          label="Recipient Total"
+          [isReadOnly]="true"
+        />
+      </div>
+    </div>
+    <div
+      class="flex flex-row justify-between items-center pb-2 border-b border-b-primary-border"
+    >
+      <div>
+        <div class="text-p-lg font-medium text-neutral-100">
+          Dokument Pendukung
+          <span class="text-tertiary-tx-red text-p-md">*</span>
+        </div>
+        <p class="text-p-sm text-neutral-80">
+          Lampirkan dokumen pendukung, seperti FS/CBA/RA atau yang lainnya
+        </p>
+      </div>
+      <app-button
+        label="Upload File"
+        icon="assets/images/icons/ic-archive.svg"
+        type="primary"
+        data-modal-target="uploadFile"
+        data-modal-toggle="uploadFile"
+      />
+    </div>
+    <app-table type="createNewRequestTable"></app-table>
+    <div class="flex gap-2 mt-5 w-full items-center justify-center">
+      <app-button
+        icon="assets/images/icons/ic-save.svg"
+        type="primary"
+        label="Save"
+      />
+      <app-button
+        icon="assets/images/icons/ic-check-circle.svg"
+        type="success"
+        label="Submit"
+      />
+    </div>
+  </div>
+  <app-modal type="uploadFile" />
+</app-layout>

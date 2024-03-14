@@ -1,0 +1,81 @@
+<app-layout currentUrl="/reallocation-budget">
+  <div
+    class="p-4 border border-primary-border rounded-3xl bg-neutral-10 flex flex-col gap-4"
+  >
+    <div class="flex justify-between items-center">
+      <app-button
+        icon="assets/images/icons/ic-arrow-left.svg"
+        type="primary-not-active"
+        label="Back"
+        [isHref]="true"
+        href="/dashboard"
+      />
+      <div class="flex flex-col items-center justify-center">
+        <p class="text-p-lg font-medium text-neutral-100">
+          TAM/RLC.TD/08.029/2023
+        </p>
+        <p class="text-p-sm leading-3 text-neutral-60">TA Reff</p>
+      </div>
+      <div></div>
+    </div>
+    <div class="flex items-center gap-2 border-b border-b-primary-border">
+      <div
+        class="px-1 py-2"
+        [ngClass]="{
+        'border-b-4 border-b-primary-hover': tabState === 'detailRequest',
+      }"
+      >
+        <p
+          class="cursor-pointer text-p-md font-medium text-neutral-60"
+          [ngClass]="{
+            'text-primary-hover': tabState === 'detailRequest',
+          }"
+          (click)="tabState = 'detailRequest'"
+        >
+          Detail Request
+        </p>
+      </div>
+      <div
+        class="px-1 py-2"
+        [ngClass]="{
+        'border-b-4 border-b-primary-hover': tabState === 'remarkReallocation',
+      }"
+      >
+        <p
+          class="cursor-pointer text-neutral-60 text-p-md font-medium"
+          [ngClass]="{
+            'text-primary-hover': tabState === 'remarkReallocation',
+          }"
+          (click)="tabState = 'remarkReallocation'"
+        >
+          Remark
+        </p>
+      </div>
+      <div
+        class="px-1 py-2"
+        [ngClass]="{
+      'border-b-4 border-b-primary-hover': tabState === 'trackingApprovalReallocation',
+    }"
+      >
+        <p
+          class="cursor-pointer text-neutral-60 text-p-md font-medium"
+          [ngClass]="{
+          'text-primary-hover': tabState === 'trackingApprovalReallocation',
+        }"
+          (click)="tabState = 'trackingApprovalReallocation'"
+        >
+          Tracking Approval
+        </p>
+      </div>
+    </div>
+    <ng-container *ngIf="tabState === 'detailRequest'">
+      <app-detail-request />
+    </ng-container>
+    <ng-container *ngIf="tabState === 'remarkReallocation'">
+      <app-remark-reallocation />
+    </ng-container>
+    <ng-container *ngIf="tabState === 'trackingApprovalReallocation'">
+      <app-tracking-approval-reallocation />
+    </ng-container>
+  </div>
+</app-layout>
