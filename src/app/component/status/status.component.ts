@@ -9,7 +9,7 @@ export class StatusComponent implements OnInit {
   @Input() status!:
     | 'OPEN'
     | 'PROGRESS'
-    | 'CLOSED'
+    | 'CLOSE'
     | 'REVISE'
     | 'REJECT'
     | 'APPROVE'
@@ -37,7 +37,7 @@ export class StatusComponent implements OnInit {
           ' border-tertiary-br-blue text-tertiary-tx-blue bg-tertiary-bg-blue ';
         break;
       }
-      case 'CLOSED': {
+      case 'CLOSE': {
         this.statusClass =
           ' border-tertiary-br-green text-tertiary-tx-green bg-tertiary-bg-green ';
         break;

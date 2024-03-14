@@ -87,6 +87,7 @@ export class RequestVerificationComponent implements OnInit {
     }
     this.checkVP();
     this.checkTAB();
+    this.checkTAP();
     this.checkTXC();
   }
   formatDate(val: Date): string {
@@ -124,7 +125,7 @@ export class RequestVerificationComponent implements OnInit {
   }
   updateDataStatusId() {
     console.log(this.userData);
-    const object: RealizationUpdateDto = {
+    let object: RealizationUpdateDto = {
       idRealization: this.idApproval,
       updateRealizationDto: {
         status: this.data.statusId >= 4 ? 'PROGRESS' : 'OPEN',
@@ -139,9 +140,44 @@ export class RequestVerificationComponent implements OnInit {
         remark: null,
       },
     };
-    console.log(object);
+    let kurs = 12323;
+    let amount = 0;
+    for (let i = 0; i < this.data.realizationItem.length; i++) {
+      amount += this.data.realizationItem[i].amountSubmission;
+    }
+
+    if (
+      amount * kurs < 10000000 &&
+      this.data.departmentTo == 'TAB' &&
+      this.userRole == 'TAB'
+    ) {
+      object.updateRealizationDto.statusToId = 9;
+    }
+    if (
+      amount < 10000 &&
+      this.data.departmentTo == 'TX' &&
+      this.userRole == 'VP_TX'
+    ) {
+      object.updateRealizationDto.status = 'CLOSE';
+      object.updateRealizationDto.statusToId = 'null';
+    }
+    let df: RealizationUpdateDto = {
+      idRealization: this.idApproval,
+      updateRealizationDto: {
+        status: 'CLOSE',
+        statusId: this.data.statusId + 1,
+        statusToId: 'null',
+        updatedBy: this.userData.personalNumber,
+      },
+      approvalDto: {
+        name: this.userData.personalName,
+        jabatan: this.userData.personalJob,
+        unit: this.userData.personalUnit,
+        remark: null,
+      },
+    };
     this.approval
-      .updateStatus(object)
+      .updateStatus(this.data.departmentTo == 'DF' ? df : object)
       .pipe(
         catchError((err) => {
           console.error('Error occurred:', err);

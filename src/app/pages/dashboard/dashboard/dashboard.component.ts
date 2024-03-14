@@ -34,7 +34,7 @@ export class DashboardComponent implements OnInit {
   dinas: string = '';
   entryDateFrom: string = '';
   entryDateTo: string = '';
-  statusType: string[] = ['OPEN', 'PROGRESS', 'CLOSED', 'REVISE', 'REJECT'];
+  statusType: string[] = ['OPEN', 'PROGRESS', 'CLOSE', 'REVISE', 'REJECT'];
 
   constructor(private requestData: NewRequestService) {}
   private readonly _onDestroy$: Subject<void> = new Subject<void>();

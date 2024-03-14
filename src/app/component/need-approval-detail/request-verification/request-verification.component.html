@@ -426,21 +426,19 @@
     <app-button
       icon="assets/images/icons/ic-check-circle.svg"
       type="success"
-      label="Confirm"
-      *ngIf="
-        (userRole === 'SM_USER' && data.statusId === 2) ||
-        (userRole === 'TXC-3' && data.statusId === 7)
-      "
-      (click)="updateDataStatusId()"
-    />
-    <app-button
-      icon="assets/images/icons/ic-check-circle.svg"
-      type="success"
       label="Submit"
       *ngIf="data.statusId === 1 && userRole === 'USER'"
       (click)="updateDataStatusId()"
     />
     <!-- BE bikin endpoint untuk updated data (sesuai data dari Realisasi) FE bikin service updated dipake componentnya , bikin 1 method untuk update , lalu dipake di htmlnya-->
+    <app-button
+      icon="assets/images/icons/ic-check-circle.svg"
+      type="success"
+      label="Confirm"
+      *ngIf="userRole === 'SM_USER' && data.statusId === 2"
+      (click)="updateDataStatusId()"
+    />
+
     <app-button
       icon="assets/images/icons/ic-check-circle.svg"
       type="primary"
@@ -455,7 +453,15 @@
         (userRole === 'TAB' &&
           data.statusId === 4 &&
           data.personalNumberTo == null) ||
-        (userRole === 'TXC-3' && data.statusId === 7)
+        (userRole === 'TAP' &&
+          data.statusId === 5 &&
+          data.personalNumberTo == null) ||
+        (userRole === 'TXC-3' &&
+          data.statusId === 7 &&
+          data.personalNumberTo == null) ||
+        (userRole === 'TXC-3' &&
+          data.statusId === 9 &&
+          data.personalNumberTo == null)
       "
       (click)="takeProjectData()"
     />
@@ -467,7 +473,15 @@
         (userRole === 'TAB' &&
           data.statusId === 4 &&
           data.personalNumberTo != null) ||
-        (userRole === 'TXC-3' && data.statusId === 7)
+        (userRole === 'TAP' &&
+          data.statusId === 5 &&
+          data.personalNumberTo != null) ||
+        (userRole === 'TXC-3' &&
+          data.statusId === 7 &&
+          data.personalNumberTo != null) ||
+        (userRole === 'TXC-3' &&
+          data.statusId === 9 &&
+          data.personalNumberTo != null)
       "
       (click)="untakeProjectData()"
     />
@@ -491,9 +505,14 @@
       data-modal-target="needApprovalRevise"
       data-modal-toggle="needApprovalRevise"
       *ngIf="
-        (userRole === 'SM_USER' && data.statusId === 2) ||
-        userRole === 'VP_USER' ||
-        userRole === 'TAB'
+        (userRole === 'SM_USER' && data.statusToId === 4) ||
+        (userRole === 'SM_TAB' && data.statusToId === 9) ||
+        (userRole === 'SM_TAP' && data.statusToId === 8) ||
+        (userRole === 'SM_TXC' && data.statusToId === 12) ||
+        (userRole === 'VP_USER' && data.statusToId === 5) ||
+        (userRole === 'VP_TA' && data.statusToId === 5) ||
+        (userRole === 'VP_TX' && data.statusToId === 13) ||
+        (userRole === 'DF' && data.statusToId === 14)
       "
     />
     <app-button
@@ -527,15 +546,150 @@
       (click)="updateDataStatusId()"
       *ngIf="
         (userRole === 'VP_USER' && data.statusId === 3) ||
-        (userRole === 'TAB' && data.statusId === 4) ||
+        (userRole === 'TAB' &&
+          data.statusId === 4 &&
+          data.personalNumberTo != null) ||
         (userRole === 'SM_TAB' && data.statusId === 5) ||
+        (userRole === 'SM_TAB' &&
+          data.statusId === 7 &&
+          data.departmentTo === 'TAB') ||
+        (userRole === 'TAP' &&
+          data.statusId === 5 &&
+          data.departmentTo === 'TAP' &&
+          data.personalNumberTo != null) ||
+        (userRole === 'SM_TAP' &&
+          data.statusId === 6 &&
+          data.departmentTo === 'TAP') ||
         (userRole === 'VP_TA' && data.statusId === 6) ||
-        (userRole === 'SM_TXC' && data.statusId === 8) ||
-        (userRole === 'VP_TX' && data.statusId === 8)
+        (userRole === 'VP_TA' &&
+          data.statusId === 8 &&
+          data.departmentTo === 'TA') ||
+        (userRole === 'TXC-3' &&
+          data.statusId === 9 &&
+          data.departmentTo === 'TXC-3' &&
+          data.personalNumberTo != null) ||
+        (userRole === 'TXC-3' &&
+          data.statusToId === 11 &&
+          data.departmentTo === 'TXC-3' &&
+          data.personalNumberTo != null) ||
+        (userRole === 'SM_TXC' &&
+          data.statusId === 10 &&
+          data.departmentTo === 'TXC') ||
+        (userRole === 'SM_TXC' &&
+          data.statusToId === 12 &&
+          data.departmentTo === 'TXC') ||
+        (userRole === 'VP_TX' &&
+          data.statusId === 11 &&
+          data.departmentTo === 'TX') ||
+        (userRole === 'VP_TX' &&
+          data.statusToId === 13 &&
+          data.departmentTo === 'TX') ||
+        (userRole === 'DF' &&
+          data.statusId === 12 &&
+          data.departmentTo === 'DF') ||
+        (userRole === 'DF' &&
+          data.statusToId === 14 &&
+          data.departmentTo === 'DF')
       "
     />
   </div>
-  <app-modal type=" needApprovalRevise" />
+  <div
+    id="needApprovalRevise"
+    tabindex="-1"
+    class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
+  >
+    <div class="relative w-full max-w-md max-h-full">
+      <div
+        class="relative bg-neutral-10 border border-primary-border rounded-lg shadow dark:bg-gray-700"
+      >
+        <div class="text-center mt-6">
+          <h6>Revise</h6>
+        </div>
+        <div class="mt-6 mx-6">
+          <div
+            class="flex flex-row justify-between items-center p-4 border-2 mb-4 border-neutral-50 rounded-2xl"
+          >
+            <div>
+              <div class="text-p-lg font-medium text-primary-main">User</div>
+              <p class="text-p-sm text-neutral-80">
+                Select this if only User area to revise
+              </p>
+            </div>
+            <app-button
+              [hasIcon]="false"
+              type="primary-not-active"
+              label="Select"
+              id="select"
+              icon=""
+            ></app-button>
+          </div>
+          <div
+            class="flex flex-row justify-between items-center p-4 border-2 mb-4 border-neutral-50 rounded-2xl"
+          >
+            <div>
+              <div class="text-p-lg font-medium text-primary-main">
+                UNIT TAB
+              </div>
+              <p class="text-p-sm text-neutral-80">
+                Select this if only User area to revise
+              </p>
+            </div>
+            <app-button
+              [hasIcon]="false"
+              type="primary-not-active"
+              label="Select"
+              id="select"
+              icon=""
+            ></app-button>
+          </div>
+          <div
+            class="flex flex-row justify-between items-center p-4 mb-3 border-2 border-neutral-50 rounded-2xl"
+          >
+            <div>
+              <div class="text-p-lg font-medium text-primary-main">
+                UNIT TXC-3
+              </div>
+              <p class="text-p-sm text-neutral-80">
+                Select this if only User area to revise
+              </p>
+            </div>
+            <app-button
+              [hasIcon]="false"
+              type="primary-not-active"
+              label="Select"
+              id="select"
+              icon=""
+            ></app-button>
+          </div>
+          <app-textarea
+            type="normal"
+            id="remark"
+            label="Remark"
+            [required]="true"
+            placeholder="Please Fill this"
+          ></app-textarea>
+        </div>
+        <div class="px-6 pb-6 text-center mt-10">
+          <div class="grid grid-cols-2 items-center justify-center gap-3">
+            <app-button
+              type="primary-not-active"
+              label="Cancel"
+              [hasIcon]="false"
+              [isFull]="true"
+              data-modal-hide="needApprovalRevise"
+            />
+
+            <app-button
+              [isFull]="true"
+              type="primary"
+              label="Confirm"
+              [hasIcon]="false"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <app-modal type="needApprovalReject" [data]="data" />
   <app-modal type="needApprovalNeedHps" [data]="data" />
   <app-modal type="needApprovalApprove" [data]="data" />
